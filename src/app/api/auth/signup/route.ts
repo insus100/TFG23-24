@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         status: 400
     });
     await connectDB();
-    const exists = await User.findOne({email: email})
+    const exists = await User.findOne({email: email})//acceso a la base de datos, saca un usuario con email: email, si no existe es undefined
     if(exists) {
         return NextResponse.json(
         {
