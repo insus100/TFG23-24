@@ -7,7 +7,10 @@ import dayjs from "dayjs";
 function CalendarTest() {
   const localizer = dayjsLocalizer(dayjs);
   return (
-    <div>
+    <div style={{
+      height: "60em",
+      width: "80em"
+    }}>
         <Calendar
             localizer={localizer}
             //style={{
