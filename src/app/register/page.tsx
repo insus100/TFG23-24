@@ -1,19 +1,32 @@
 'use client';
 import axios, { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 
 function RegisterPage() {
   const [error, setError] = useState();
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {//esto es como hacer function handleSubmit(e: ...) {...}
+  const router = useRouter();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {//esto es como hacer function handleSubmit(e: ...) {...}
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);//sacar datos de formulario
     try {
-      const res = axios.post('/api/auth/signup', {
-        email: formData.get('email'),
-        username: formData.get('username'),
-        password: formData.get('password')
-      })
+      const signupResponse = await axios.post("/api/auth/signup", {
+        email: formData.get("email"),
+        password: formData.get("password"),
+        fullname: formData.get("fullname"),
+      });
+      console.log(signupResponse);
+      const res = await signIn("credentials", {
+        email: signupResponse.data.email,
+        password: formData.get("password"),
+        redirect: false,
+      });
+
+      if (res?.ok) return router.push("/dashboard");
+
     } catch(error) {
       console.log("RegisterPage", error);
       if(error instanceof AxiosError) {
