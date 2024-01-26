@@ -5,8 +5,8 @@ import { connectDB } from "@/libs/mongodb";
 export async function POST(request: Request) {
     //const body = await request.json();
     //console.log(body);
-    const {username, email, pwd } = await request.json();
-    if(!pwd || pwd.length < 4) return NextResponse.json({
+    const {username, email, passsword } = await request.json();
+    if(!passsword || passsword.length < 4) return NextResponse.json({
         message: "La contraseña debe tener al menos 4 caracteres"
     }, {
         status: 400
@@ -23,11 +23,11 @@ export async function POST(request: Request) {
         })
     }
     try {
-        const password = await bcrypt.hash(pwd, 12);//hasheamos la contraseña
+        const hashedpassword = await bcrypt.hash(passsword, 12);//hasheamos la contraseña
         const user = new User({
             email,
             username,
-            password
+            password: hashedpassword
         })
         const savedUser = await user.save();
         console.log(savedUser)
