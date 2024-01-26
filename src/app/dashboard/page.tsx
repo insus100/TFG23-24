@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import {signOut, useSession} from 'next-auth/react'
 import { redirect } from "next/navigation";
+import CalendarTest from "../calendartest/page";
 
 function DashboarPage(){
     //const _status = await getServerSession(authOptions)
@@ -15,6 +16,7 @@ function DashboarPage(){
     return(
         <div>DashboarPage
             <button onClick={() => {signOut()}}>Cerrar sesión</button>
+            <CalendarTest/>
         </div>
     )
 }
