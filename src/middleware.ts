@@ -2,7 +2,7 @@
 import { getToken } from 'next-auth/jwt'
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from 'next/server'
-
+//https://stackoverflow.com/questions/77415447/nextjs-13-app-routes-protected-login-and-register-page-when-logged-in
 export default withAuth(
     // `withAuth` augments your `Request` with the user's token.
     async function middleware(req) {
