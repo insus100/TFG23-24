@@ -16,7 +16,7 @@ function RegisterPage() {
       const signupResponse = await axios.post("/api/auth/signup", {
         email: formData.get("email"),
         password: formData.get("password"),
-        username: formData.get("fullname"),
+        username: formData.get("username"),
       });
       console.log(signupResponse);
       const res = await signIn("credentials", {
