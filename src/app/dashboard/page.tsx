@@ -14,8 +14,8 @@ function DashboarPage(){
         //return redirect('/login');
     }
     return(
-        <div>DashboarPage
-            <button onClick={() => {signOut()}}>Cerrar sesión</button>
+        <div>DashboardPage
+            <button className="bg-red-500 text-white px-4 py-2 block" onClick={() => {signOut()}}>Cerrar sesión</button>
             <CalendarTest/>
         </div>
     )
