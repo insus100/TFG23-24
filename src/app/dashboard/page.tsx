@@ -1,14 +1,21 @@
 "use client"
-
-import {useSession} from 'next-auth/react'
+import { useEffect } from "react";
+import {signOut, useSession} from 'next-auth/react'
+import { redirect } from "next/navigation";
 
 function DashboarPage(){
-    const{data: session, status} =  useSession()
+    //const _status = await getServerSession(authOptions)
+    const{data: session, status} = useSession()
 
-    console.log(session, status);
-
+    console.log(`session:`, session, `\nstatus:`, status);
+    if(status === 'unauthenticated') {
+        console.log("redirect to register");
+        //return redirect('/login');
+    }
     return(
-        <div>DashboarPage</div>
+        <div>DashboarPage
+            <button onClick={() => {signOut()}}>Cerrar sesión</button>
+        </div>
     )
 }
 

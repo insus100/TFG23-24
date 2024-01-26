@@ -17,6 +17,7 @@ function LoginPage() {
         email: formData.get("email"),
         password: formData.get("password"),
         redirect: false,
+        //callbackUrl: 'http://localhost:3000/dashboard'
       });
 
 
@@ -34,14 +35,29 @@ function LoginPage() {
     
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        {error && <div>{error}</div>}
-        <h1>Login</h1>
-        <input type="text" placeholder="email@ucm.es" name="email" />
-        <input type="password" placeholder="" name="password" />
-        <button>
-          Login
+    <div className="justify-center h-[calc(100vh-4rem)] flex items-center">
+      <form onSubmit={handleSubmit} className="bg-neutral-950 px-8 py-10 w-3/12">
+        {error && <div className="bg-red-500 text-white p-2 mb-2">{error}</div>}
+        <h1 className="text-4xl font-bold mb-7">Iniciar sesión</h1>
+
+        <label className="text-slate-300">Correo electrónico:</label>
+        <input
+          type="email"
+          placeholder="Correo electrónico"
+          className="bg-zinc-800 px-4 py-2 block mb-2 w-full"
+          name="email"
+        />
+
+        <label className="text-slate-300">Contraseña:</label>
+        <input
+          type="password"
+          placeholder="Contraseña"
+          className="bg-zinc-800 px-4 py-2 block mb-2 w-full"
+          name="password"
+        />
+
+        <button className="bg-blue-500 text-white px-4 py-2 block w-full mt-4">
+          Iniciar sesión
         </button>
       </form>
     </div>
