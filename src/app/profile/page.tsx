@@ -1,14 +1,14 @@
 "use client"
 import {useSession} from 'next-auth/react'
 import { useState } from 'react';
-
+import axios, { AxiosError } from "axios";
 
 
 function ProfilePage(){
     //const _status = await getServerSession(authOptions)
     const{data: session, status} = useSession()
 
-    console.log(`session:`, session, `\nstatus:`, status);
+    const user = session?.user as any;
     if(status === 'unauthenticated') {
         console.log("redirect to register");
         //return redirect('/login');
@@ -18,15 +18,11 @@ function ProfilePage(){
   
 const handleChangePassword = async () => {
     // Implementa la lógica para cambiar la contraseña utilizando la API de NextAuth
-    const response = await fetch('/api/auth/password/change', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ newPassword }),
+    const response = await axios.post('/api/auth/password', {
+      password: newPassword,
     });
-
-    if (response.ok) {
+  console.log(response);
+    if (response.status == 200) {
       console.log('Contraseña actualizada con éxito');
     } else {
       console.error('Error al actualizar la contraseña');
@@ -40,7 +36,11 @@ const handleChangePassword = async () => {
         <>
           <div>
             <label>Email:</label>
-            <p>{session.user?.email}</p>
+            <p>{user.email}</p>
+          </div>
+          <div>
+            <label>Usu:</label>
+            <p>{user.username}</p>
           </div>
           <div>
             <label>Nueva Contraseña:</label>
