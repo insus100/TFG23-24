@@ -16,9 +16,14 @@ function DashboarPage(){
     return(
         <div>DashboardPage
             <button className="bg-red-500 text-white px-4 py-2 block" onClick={() => {signOut()}}>Cerrar sesión</button>
+            <button id="profileButton" onClick={() => {irAPerfil()}}>Ir al Perfil</button>
             <CalendarTest/>
         </div>
     )
 }
+
+function irAPerfil() {
+    window.location.href = '/profile'; 
+  }
 
 export default DashboarPage
