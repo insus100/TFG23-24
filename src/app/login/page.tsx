@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import {Button} from "@nextui-org/react";
 
 function LoginPage() {
   const [error, setError] = useState();
@@ -55,10 +55,12 @@ function LoginPage() {
           className="bg-zinc-800 px-4 py-2 block mb-2 w-full"
           name="password"
         />
-
-        <button className="bg-blue-500 text-white px-4 py-2 block w-full mt-4">
+        {/*<button className="bg-blue-500 text-white px-4 py-2 block w-full mt-4">
           Iniciar sesión
-        </button>
+        </button>*/}
+        <Button color="primary">
+          Iniciar sesión
+        </Button>
       </form>
     </div>
   )
