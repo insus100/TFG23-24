@@ -20,7 +20,7 @@ username: {
     required: [true, "Nombre de usuario requerido"],
     minLength: [4, "Longitud mínima nombre de usuario 4"],
     maxLength: [128, "Longitud máxima nombre de usuario 128"]
-}
+},
 });
 
 const User = models.User || model('User', userSchema);

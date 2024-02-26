@@ -1,4 +1,4 @@
-import {Schema, model, models} from 'mongoose';
+import mongoose, {Schema, model, models} from 'mongoose';
 
 const eventSchema = new Schema({
 title: {
@@ -14,8 +14,16 @@ start: {
 end: {
     type: Date,
     required: [true, "Final del evento requerido"]
-}
+},
+creator: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+},
+attendingUsers: [{
+    type: Schema.Types.ObjectId,
+    ref: "User"
+}]
 });
 
-const Event = model('Event', eventSchema);
+const Event = models.Event || model('Event', eventSchema);
 export default Event
