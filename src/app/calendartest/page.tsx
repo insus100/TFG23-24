@@ -4,8 +4,13 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
 
 
-function CalendarTest() {
+interface CalendarTestProps {
+  events: { start: Date; end: Date; title: string }[];
+}
+
+function CalendarTest({ events }: CalendarTestProps) {
   const localizer = dayjsLocalizer(dayjs);
+
   return (
     <div style={{
       height: "60em",
@@ -13,6 +18,7 @@ function CalendarTest() {
     }}>
         <Calendar
             localizer={localizer}
+            events={events}
             //style={{
             //    height: 100,
             //    width: 100

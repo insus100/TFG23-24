@@ -49,6 +49,7 @@ function LoginPage() {
           placeholder="Introduce tu e-mail"
           name="email"
           className="w-full"
+          style={{ color: 'white' }}
         />
 
         <Input
@@ -58,6 +59,7 @@ function LoginPage() {
           type="password"
           name="password"
           className="w-full mt-4"
+          style={{ color: 'white' }}
         />
         <Button color="primary" type="submit" className="w-full block mt-4">
           Iniciar sesión
