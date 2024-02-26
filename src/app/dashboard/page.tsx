@@ -15,11 +15,12 @@ function DashboarPage(){
     const [events, setEvents] = useState<{ title: string; start: Date; end: Date }[]>([]);
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const router = useRouter();
+
+    // Obtener eventos al cargar la página
     useEffect(() => {
-        // Obtener eventos al cargar la página
-        axios.get('/api/auth/createEvent')
-          .then((response) => setEvents(response.data))
-          .catch((error) => console.error('Error fetching events:', error));
+        (async () => {
+            const events = await axios.get('/api/events/createEvent');
+        })()
       }, []);
 
     console.log(`session:`, session, `\nstatus:`, status);
@@ -27,15 +28,6 @@ function DashboarPage(){
         console.log("redirect to register");
         //return redirect('/login');
     }
-
-
-
-    const handleAddEvent = () => {
-        // Agregar un nuevo evento y actualizar la lista de eventos
-        axios.post('/api/auth/createEvent')
-          .then((response) => setEvents([...events, response.data]))
-          .catch((error) => console.error('Error adding event:', error));
-    };
 
     const irAPerfil = () => {
         return router.push('/profile')
