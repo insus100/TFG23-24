@@ -11,6 +11,7 @@ export default function EventModal() {
               <ModalHeader className="flex flex-col gap-1">Crear evento</ModalHeader>
               <ModalBody>
                 <Input
+                  isRequired
                   autoFocus
                   label="Título"
                   name="title"
@@ -18,6 +19,7 @@ export default function EventModal() {
                   variant="bordered"
                 />
                 <Input
+                  isRequired
                   label="Fecha inicio"
                   name="start"
                   placeholder="Enter your password"
@@ -25,13 +27,14 @@ export default function EventModal() {
                   variant="bordered"
                 />
                 <Input
+                  isRequired
                   label="Fecha fin"
                   name="end"
                   placeholder="Enter your password"
                   type="datetime-local"
                   variant="bordered"
                 />
-                <div className="flex py-2 px-1 justify-between">
+                {/*<div className="flex py-2 px-1 justify-between">
                   <Checkbox
                     classNames={{
                       label: "text-small",
@@ -42,7 +45,7 @@ export default function EventModal() {
                   <Link color="primary" href="#" size="sm">
                     Forgot password?
                   </Link>
-                </div>
+                  </div>*/}
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>
