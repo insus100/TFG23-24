@@ -28,4 +28,6 @@ export async function GET(request: Request) {
     //aquí habría que sacar los eventos del mes y mandar solo los de un mes, no todos porque si no se petará en el caso que haya muchos eventos.
     //en la query especificar start y end
     //return NextResponse.json({});
+    const events = await Event.find();//esto saca todos.
+    return NextResponse.json(events);
 }

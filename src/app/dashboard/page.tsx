@@ -20,6 +20,7 @@ function DashboarPage(){
     useEffect(() => {
         (async () => {
             const events = await axios.get('/api/events/createEvent');
+            console.log("events", events);
         })()
       }, []);
 
