@@ -36,7 +36,7 @@ export default function EventModal() {
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">Crear evento</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1"  style={{ color: 'white' }}>Crear evento</ModalHeader>
             <form onSubmit={(e) => handleSubmit(e, onClose)}>
               <ModalBody>
 
@@ -47,6 +47,7 @@ export default function EventModal() {
                   name="title"
                   placeholder="Título del evento"
                   variant="bordered"
+                  style={{ color: 'white' }}
                 />
                 <Input className="mt-2"
                   isRequired
@@ -55,6 +56,7 @@ export default function EventModal() {
                   placeholder="Enter your password"
                   type="datetime-local"
                   variant="bordered"
+                  style={{ color: 'white' }}
                 />
                 <Input className="mt-2"
                   isRequired
@@ -63,6 +65,7 @@ export default function EventModal() {
                   placeholder="Enter your password"
                   type="datetime-local"
                   variant="bordered"
+                  style={{ color: 'white' }}
                 />
                 {/*<div className="flex py-2 px-1 justify-between">
                   <Checkbox

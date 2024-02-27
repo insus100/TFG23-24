@@ -2,6 +2,7 @@
 import { signOut, useSession} from 'next-auth/react';
 import { useState } from 'react';
 import axios, { AxiosError } from "axios";
+import { Button } from '@nextui-org/react';
 
 
 function ProfilePage(){
@@ -56,8 +57,12 @@ const handleChangePassword = async () => {
 
   return (
     <div>
-      <button className="bg-red-500 text-white px-4 py-2 block" onClick={() => {signOut()}}>Cerrar sesión</button>
-      <button id="profileButton" onClick={() => {irADashboard()}}>Ir al dashboard</button>
+      <Button color="danger" className="block px-4 py-2" onClick={() => {signOut()}}>
+          Cerrar sesión
+      </Button>
+      <Button color="primary" id="profileButton" onPress={() => {irADashboard()}}>
+                Ir al Dashboard
+      </Button>
       <h1>Perfil de Usuario</h1>
       {session ? (
         <>

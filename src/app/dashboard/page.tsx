@@ -12,23 +12,30 @@ import axios from 'axios';
 function DashboarPage(){
     //const _status = await getServerSession(authOptions)
     const{data: session, status} = useSession()
-    const [events, setEvents] = useState<{ title: string; start: Date; end: Date }[]>([]);
+    const [events, setEvents] = useState([]);
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const router = useRouter();
 
-    // Obtener eventos al cargar la página
-    useEffect(() => {
-        (async () => {
-            const events = await axios.get('/api/events/createEvent');
-            console.log("events", events);
-        })()
-      }, []);
+
 
     console.log(`session:`, session, `\nstatus:`, status);
     if(status === 'unauthenticated') {
         console.log("redirect to register");
         //return redirect('/login');
     }
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const response = await axios.get(`/api/events/createEvent`);
+                setEvents(response.data);
+            } catch (error) {
+                console.error("Error fetching events:", error);
+            }
+        };
+    
+        fetchEvents();
+    }, []);
 
     const irAPerfil = () => {
         return router.push('/profile')

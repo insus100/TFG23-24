@@ -1,6 +1,7 @@
 import {  NextResponse } from "next/server";
 import Event from "@/models/event";
 import { connectDB } from "@/libs/mongodb";
+
 export async function POST(request: Request) {
     const { title, start, end, creator } = await request.json();
 
@@ -31,3 +32,4 @@ export async function GET(request: Request) {
     const events = await Event.find();//esto saca todos.
     return NextResponse.json(events);
 }
+
