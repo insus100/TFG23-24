@@ -24,7 +24,7 @@ function DashboarPage(){
         //return redirect('/login');
     }
 
-    useEffect(() => {
+   /* useEffect(() => {
         const fetchEvents = async () => {
             try {
                 const response = await axios.get(`/api/events/createEvent`);
@@ -36,7 +36,7 @@ function DashboarPage(){
     
         fetchEvents();
     }, []);
-
+*/
     const irAPerfil = () => {
         return router.push('/profile')
     };
