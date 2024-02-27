@@ -7,6 +7,14 @@ import dayjs from "dayjs";
 interface CalendarTestProps {
   events: { start: Date; end: Date; title: string }[];
 }
+/*        <Calendar
+            localizer={localizer}
+            events={events}
+            //style={{
+            //    height: 100,
+            //    width: 100
+            //}}
+        />*/ 
 
 function CalendarTest({ events }: CalendarTestProps) {
   const localizer = dayjsLocalizer(dayjs);
@@ -17,12 +25,11 @@ function CalendarTest({ events }: CalendarTestProps) {
       width: "80em"
     }}>
         <Calendar
-            localizer={localizer}
-            events={events}
-            //style={{
-            //    height: 100,
-            //    width: 100
-            //}}
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 700 }}
         />
     </div>
   )
