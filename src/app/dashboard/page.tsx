@@ -27,15 +27,15 @@ function DashboarPage(){
 
 
 
-   /* useEffect(() => {
+    useEffect(() => {
         (async () => {
             const events = await axios.get('/api/events/createEvent');
             console.log("events", events);
         })()
-    }, []);*/
+    }, []);
 
     
-    useEffect(() => {
+    /*useEffect(() => {
         (async () => {
           try {
             const response = await axios.get('/api/events/createEvent');
@@ -51,7 +51,7 @@ function DashboarPage(){
             console.error("Error al obtener eventos:", error);
           }
         })();
-      }, []);
+      }, []);*/
     
     const irAPerfil = () => {
         return router.push('/profile')

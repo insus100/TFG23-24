@@ -29,6 +29,7 @@ export async function GET(request: Request) {
     //aquí habría que sacar los eventos del mes y mandar solo los de un mes, no todos porque si no se petará en el caso que haya muchos eventos.
     //en la query especificar start y end
     //return NextResponse.json({});
+    await connectDB();
     const events = await Event.find();//esto saca todos.
     console.log("Fetched events successfully:", events);
     return NextResponse.json(events);
