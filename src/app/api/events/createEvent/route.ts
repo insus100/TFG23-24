@@ -30,7 +30,7 @@ export async function GET(request: Request) {
     //en la query especificar start y end
     //return NextResponse.json({});
     await connectDB();
-    const events = await Event.find();//esto saca todos.
+    const events = await Event.find().populate(['creator', 'attendingUsers']);//esto saca todos.
     console.log("Fetched events successfully:", events);
     return NextResponse.json(events);
 }
