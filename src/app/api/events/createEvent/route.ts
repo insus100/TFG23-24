@@ -31,7 +31,7 @@ export async function GET(request: Request) {
     //return NextResponse.json({});
     await connectDB();
     const events = await Event.find().populate(['creator', 'attendingUsers']);//esto saca todos.
-    console.log("Fetched events successfully:", events);
+    //console.log("Fetched events successfully:", events);
     return NextResponse.json(events);
 }
 
