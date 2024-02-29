@@ -5,14 +5,15 @@ import dayjs from 'dayjs';
 
 interface CalendarTestProps {
   events: { start: Date; end: Date; title: string }[];
-  setSelectedEvent: React.Dispatch<React.SetStateAction<{ start: Date; end: Date; title: string } | null>>;
+  openEventInfoModal: React.Dispatch<React.SetStateAction<{ start: Date; end: Date; title: string } | null>>;
 }
 
-function CalendarTest({ events, setSelectedEvent }: CalendarTestProps) {
+function CalendarTest({ events, openEventInfoModal: openEventInfoModal }: CalendarTestProps) {
   const localizer = dayjsLocalizer(dayjs);
 
   const handleEventClick = (event: { start: Date; end: Date; title: string }) => {
-    setSelectedEvent(event);
+    //console.log("handleEventClick", event);
+    openEventInfoModal(event);
   };
 
   return (

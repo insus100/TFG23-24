@@ -57,6 +57,11 @@ function DashboarPage(){
         return router.push('/profile')
     };
 
+    const openEventInfoModal = (event: any) => {
+      setSelectedEvent(event);
+      onInfoModalOpen();
+    }
+
 
 
     return(
@@ -70,10 +75,10 @@ function DashboarPage(){
             <Button onPress={onEventModalOpen} className="bg-green-500 text-white px-4 py-2 block mt-4">
                 Agregar Evento al Calendario
             </Button>
-            <Button onPress={onInfoModalOpen} className="bg-green-500 text-white px-4 py-2 block mt-4">
-                Ver información del evento
-            </Button>
-            <CalendarTest events={events} setSelectedEvent={setSelectedEvent} />
+            <CalendarTest
+              events={events}
+              openEventInfoModal={openEventInfoModal}
+            />
 
             <Modal 
                 isOpen={isInfoModalOpen} 
