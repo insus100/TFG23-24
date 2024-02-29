@@ -6,7 +6,6 @@ import CalendarTest from "../calendartest/page";
 import { Button, Modal, useDisclosure } from '@nextui-org/react';
 import EventModal from './eventModal'
 import axios from 'axios';
-import Event from "@/models/event";
 
 
 
@@ -25,33 +24,30 @@ function DashboarPage(){
         //return redirect('/login');
     }
 
-
-
-    useEffect(() => {
-        (async () => {
-            const events = await axios.get('/api/events/createEvent');
-            console.log("events", events);
-        })()
-    }, []);
+    interface EventData {
+        title: string;
+        start: Date; 
+        end: Date;   
+      }
 
     
-    /*useEffect(() => {
+    useEffect(() => {
         (async () => {
           try {
             const response = await axios.get('/api/events/createEvent');
             console.log("events", response);
-            const fetchedEvents = response.data; // Asegúrate de que la respuesta contenga los eventos
-            const formattedEvents = fetchedEvents.map(event => ({
+            const fetchedEvents = response.data; 
+            const formattedEvents = fetchedEvents.map((event: EventData) => ({
               title: event.title,
-              start: new Date(event.start), // Asegúrate de que el formato sea adecuado
-              end: new Date(event.end),     // Asegúrate de que el formato sea adecuado
+              start: new Date(event.start), 
+              end: new Date(event.end),     
             }));
             setEvents(formattedEvents);
           } catch (error) {
             console.error("Error al obtener eventos:", error);
           }
         })();
-      }, []);*/
+      }, []);
     
     const irAPerfil = () => {
         return router.push('/profile')
