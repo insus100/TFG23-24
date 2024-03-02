@@ -26,6 +26,6 @@ export default withAuth(
 )
 
 export const config = {//rutas protegidas a las que no se puede acceder sin haberse logueado
-    matcher: ['/login', '/register', '/dashboard']
+    matcher: ['/login', '/register', '/dashboard', '/profile']
     //para proteger todas las rutas dentro de una por ej, todas dentro de dashboard '/dashboard/:path*'
 }
