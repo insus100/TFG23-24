@@ -13,12 +13,14 @@ export default function ShowInfoModal({ selectedEvent, onClose }: showInfoModalP
   const { data: session, status } = useSession()
   const user = session?.user as any;
   
-  const eliminarEvento = async (e: any, selEvent: any) => {
+  const eliminarEvento = async (e: any, selEvent: any, onClose: Function) => {
     const res = await axios.post('/api/events/deleteEvent', {
       _id: selEvent._id
     });
     if(res.data.status == 'ok') {
       //eliminar evento del big calendar y cerrar modal.
+      //TODO Quitarlo del calendario...
+      onClose();
     }
   }
 
@@ -43,7 +45,7 @@ export default function ShowInfoModal({ selectedEvent, onClose }: showInfoModalP
             <ModalFooter>
               {selectedEvent && user && selectedEvent.creator._id === user._id &&
                 (<>
-                  <Button color="danger" variant="flat" onPress={(e) => eliminarEvento(e, selectedEvent)}>
+                  <Button color="danger" variant="flat" onPress={(e) => eliminarEvento(e, selectedEvent, onClose)}>
                     Eliminar
                   </Button>
                 </>)
