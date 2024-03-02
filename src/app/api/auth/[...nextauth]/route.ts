@@ -31,13 +31,19 @@ const handler = NextAuth({
         }),
     ],
     callbacks: {
-        jwt({ account, token, user, profile, session }) {
-            console.log(token.user);
-            if (user) token.user = user as any;
+        jwt({ account, token, user, profile, session, trigger }) {
+            console.log("callbacks.jwt: ", token.user);
+            //siempre se llama al recargar pagina, primero esta
+            if(trigger === 'update' && session?.user) {
+                token.user = session?.user as any;
+                //console.log("user updated session: ", session);
+            }
+            else if (user) token.user = user as any;
             return token;
         },
         session({ session, token }) {
-            console.log(token.user);
+            console.log("callbacks.session: ", token.user);
+            //siempre se llama al recargar pagina
             session.user = token.user as any;
             return session;
         },

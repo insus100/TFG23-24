@@ -1,25 +1,24 @@
 import { connectDB } from "@/libs/mongodb";
 import User from "@/models/user";
 import {  NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
+//import { getServerSession } from "next-auth";
 
 export async function POST(request: Request){
 
-     const { email } = await request.json();
-  
+     const { email, curEmail } = await request.json();
     // Validaciones adicionales, si es necesario
   
     try {
         await connectDB();
   
       // Obtén el usuario desde la base de datos
-      const session = await getServerSession();
-      const user = await User.findOne({email: session?.user?.email});
+      //const session = await getServerSession();
+      const user = await User.findOne({email: curEmail});
   
       if (!user) {
         return NextResponse.json(
           {
-              message: "Usuario no encontrado"
+              message: `Usuario ${curEmail} no encontrado`
           },
           {
               status: 404

@@ -7,7 +7,7 @@ import { Button, Input, Card, CardHeader, CardBody, CardFooter, Divider, Link, I
 
 function ProfilePage() {
   //const _status = await getServerSession(authOptions)
-  const { data: session, status } = useSession()
+  const { data: session, status, update } = useSession()
   const router = useRouter();
   const user = session?.user as any;
   if (status === 'unauthenticated') {
@@ -23,9 +23,11 @@ function ProfilePage() {
     // Implementa la lógica para cambiar la contraseña utilizando la API de NextAuth
     const response = await axios.post('/api/auth/passwordChange', {
       password: newPassword,
+      curEmail: user.email
     });
     if (response.status == 200) {
       console.log('Contraseña actualizada con éxito');
+      update({ user: {...session?.user, password: 'hashearlaaa'} });
     } else {
       console.error('Error al actualizar la contraseña');
     }
@@ -35,9 +37,11 @@ function ProfilePage() {
     // Implementa la lógica para cambiar la contraseña utilizando la API de NextAuth
     const response = await axios.post('/api/auth/usernameChange', {
       username: newUsername,
+      curEmail: user.email
     });
     if (response.status == 200) {
       console.log('Nombre de usuario actualizado con éxito');
+      update({ user: {...session?.user, username: newUsername} });
     } else {
       console.error('Error al actualizar el nombre de usuario');
     }
@@ -47,9 +51,12 @@ function ProfilePage() {
     // Implementa la lógica para cambiar la contraseña utilizando la API de NextAuth
     const response = await axios.post('/api/auth/emailChange', {
       email: newEmail,
+      curEmail: user.email
     });
     if (response.status == 200) {
       console.log('Email actualizado con éxito');
+      //actualizar sesion.
+      update({ user: {...session?.user, email: newEmail} });
     } else {
       console.error('Error al actualizar el email');
     }
