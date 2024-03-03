@@ -7,8 +7,12 @@ import { useSession } from 'next-auth/react'
 export default function EventModal() {
   const { data: session, status } = useSession()
   const user = session?.user as any;
+  const handleClick = () => {
+    window.location.reload();
+  };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>, closeModal: Function) => {//esto es como hacer function handleSubmit(e: ...) {...}
     e.preventDefault();
+
 
     const formData = new FormData(e.currentTarget);//sacar datos de formulario
     try {
@@ -85,7 +89,7 @@ export default function EventModal() {
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Cancelar
                 </Button>
-                <Button color="primary" type="submit">
+                <Button color="primary" type="submit" onClick={handleClick}>
                   Crear
                 </Button>
               </ModalFooter>

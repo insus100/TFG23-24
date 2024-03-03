@@ -21,6 +21,7 @@ export default function ShowInfoModal({ selectedEvent, onClose }: showInfoModalP
       //eliminar evento del big calendar y cerrar modal.
       //TODO Quitarlo del calendario...
       onClose();
+      window.location.reload();
     }
   }
 
