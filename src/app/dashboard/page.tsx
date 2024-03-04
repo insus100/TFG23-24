@@ -14,6 +14,8 @@ function DashboarPage() {
   //const _status = await getServerSession(authOptions)
   const { data: session, status } = useSession()
   const [events, setEvents] = useState([]);
+  const [eventCreated, setEventCreated] = useState(false);
+  const [eventModified, setEventModified] = useState(false);
   const { isOpen: isEventModalOpen, onOpen: onEventModalOpen, onOpenChange: onEventModalOpenChange } = useDisclosure();
   const { isOpen: isInfoModalOpen, onOpen: onInfoModalOpen, onOpenChange: onInfoModalOpenChange } = useDisclosure();
   const router = useRouter();
@@ -51,11 +53,14 @@ function DashboarPage() {
           creator: event.creator
         }));
         setEvents(formattedEvents);
+        if (eventCreated) {
+          setEventCreated(false);
+        }
       } catch (error) {
         console.error("Error al obtener eventos:", error);
       }
     })();
-  }, []);
+  }, [eventCreated]);
 
   const irAPerfil = () => {
     return router.push('/profile')
@@ -91,7 +96,7 @@ function DashboarPage() {
         placement="top-center"
       >
         {selectedEvent && (
-          <ShowInfoModal selectedEvent={selectedEvent} onClose={() => setSelectedEvent(null)} />
+          <ShowInfoModal selectedEvent={selectedEvent} onClose={() => setSelectedEvent(null)} setEventCreated={setEventCreated}/>
         )}
       </Modal>
       <Modal
@@ -99,7 +104,7 @@ function DashboarPage() {
         onOpenChange={onEventModalOpenChange}
         placement="top-center"
       >
-        <EventModal />
+        <EventModal setEventCreated={setEventCreated}/>
       </Modal>
     </div>
   )

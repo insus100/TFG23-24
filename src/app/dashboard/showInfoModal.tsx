@@ -8,9 +8,10 @@ import ModifyModal from './modifyModal'
 interface showInfoModalProps {
   selectedEvent: any;
   onClose: () => void;
+  setEventCreated: Function;
 }
 
-export default function ShowInfoModal({ selectedEvent, onClose }: showInfoModalProps) {
+export default function ShowInfoModal({ selectedEvent, onClose, setEventCreated  }: showInfoModalProps) {
   const { data: session, status } = useSession()
   const user = session?.user as any;
   const { isOpen: isModifyModalOpen, onOpen: onModifyModalOpen, onOpenChange: onModifyModalOpenChange } = useDisclosure();
@@ -23,9 +24,9 @@ export default function ShowInfoModal({ selectedEvent, onClose }: showInfoModalP
       //eliminar evento del big calendar y cerrar modal.
       //TODO Quitarlo del calendario...
       onClose();
-      window.location.reload();
     }
   }
+  setEventCreated(true);
 
   return (
     <>

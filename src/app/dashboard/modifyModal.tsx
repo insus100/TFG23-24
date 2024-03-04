@@ -18,9 +18,6 @@ export default function ModifyModal({ selectedEvent }: modifyModalProps) {
   const [newEnd, setNewEnd] = useState('');
 
 
-  const handleClick = () => {
-    window.location.reload();
-  };
 
   const handleChangeTitle = async () => {
     const response = await axios.post('/api/events/titleChange', {
@@ -110,7 +107,7 @@ export default function ModifyModal({ selectedEvent }: modifyModalProps) {
             <ModalFooter>
               {selectedEvent && user && selectedEvent.creator._id === user._id &&
                 (<>
-                    <Button color="primary" type="submit" onClick={handleClick}>
+                    <Button color="primary" type="submit" onPress={onClose}>
                     Terminar
                     </Button>
                 </>)
