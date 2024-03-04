@@ -22,9 +22,6 @@ function DashboarPage() {
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
 
-
-
-  console.log(`session:`, session, `\nstatus:`, status);
   if (status === 'unauthenticated') {
     console.log("redirect to register");
     //return redirect('/login');
@@ -41,20 +38,10 @@ function DashboarPage() {
 
 
   useEffect(() => {
+    console.log(`session:`, session, `\nstatus:`, status);
     (async () => {
       try {
-        const response = await axios.get('/api/events/createEvent');
-        console.log("events", response);
-        const fetchedEvents = response.data;
-        const formattedEvents = fetchedEvents.map((event: EventData) => ({
-          _id: event._id,
-          title: event.title,
-          start: new Date(event.start),
-          end: new Date(event.end),
-          creator: event.creator,
-          attendingUsers: event.attendingUsers
-        }));
-        setEvents(formattedEvents);
+        await getAllEvents();
         if (eventCreated) {
           setEventCreated(false);
         }
@@ -64,15 +51,30 @@ function DashboarPage() {
     })();
   }, [eventCreated]);
 
+  const getAllEvents = async () => {
+    const response = await axios.get('/api/events/createEvent');
+    console.log("events", response);
+    const fetchedEvents = response.data;
+    const formattedEvents = fetchedEvents.map((event: EventData) => ({
+      _id: event._id,
+      title: event.title,
+      start: new Date(event.start),
+      end: new Date(event.end),
+      creator: event.creator,
+      attendingUsers: event.attendingUsers
+    }));
+    setEvents(formattedEvents);
+  };
+
   const irAPerfil = () => {
     return router.push('/profile')
   };
 
   const openEventInfoModal = (event: any) => {
+    //console.log("Selected event", event);
     setSelectedEvent(event);
     onInfoModalOpen();
   }
-
 
 
   return (
@@ -96,9 +98,10 @@ function DashboarPage() {
         isOpen={isInfoModalOpen}
         onOpenChange={onInfoModalOpenChange}
         placement="top-center"
+        onClose={async () => {setSelectedEvent(null); await getAllEvents();}}
       >
         {selectedEvent && (
-          <ShowInfoModal selectedEvent={selectedEvent} onClose={() => setSelectedEvent(null)} setEventCreated={setEventCreated}/>
+          <ShowInfoModal selectedEvent={selectedEvent} setEventCreated={setEventCreated} />
         )}
       </Modal>
       <Modal
@@ -106,7 +109,7 @@ function DashboarPage() {
         onOpenChange={onEventModalOpenChange}
         placement="top-center"
       >
-        <EventModal setEventCreated={setEventCreated}/>
+        <EventModal setEventCreated={setEventCreated} />
       </Modal>
     </div>
   )

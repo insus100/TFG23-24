@@ -7,18 +7,17 @@ import ModifyModal from './modifyModal'
 
 interface showInfoModalProps {
   selectedEvent: any;
-  onClose: () => void;
   setEventCreated: Function;
 }
 
-export default function ShowInfoModal({ selectedEvent, onClose, setEventCreated  }: showInfoModalProps) {
+export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showInfoModalProps) {
   const { data: session, status } = useSession()
   const user = session?.user as any;
   const { isOpen: isModifyModalOpen, onOpen: onModifyModalOpen, onOpenChange: onModifyModalOpenChange } = useDisclosure();
   const [estaApuntado, setEstaApuntado] = useState(selectedEvent.attendingUsers.find((u: any) => u._id == user._id) ? true : false);
   const [loadingButton, setLoadingButton] = useState(false);
 
-  console.log("estaApuntado", estaApuntado);
+  //console.log("estaApuntado", estaApuntado);
 
   const eliminarEvento = async (e: any, selEvent: any, onClose: Function) => {
     const res = await axios.post('/api/events/deleteEvent', {
@@ -26,7 +25,6 @@ export default function ShowInfoModal({ selectedEvent, onClose, setEventCreated 
     });
     if(res.data.status == 'ok') {
       //eliminar evento del big calendar y cerrar modal.
-      //TODO Quitarlo del calendario...
       onClose();
     }
   }
@@ -58,7 +56,6 @@ export default function ShowInfoModal({ selectedEvent, onClose, setEventCreated 
   }
   useEffect(() => {
     setEventCreated(true);
-    setEstaApuntado(selectedEvent.attendingUsers.find((u: any) => u._id == user._id) ? true : false);
   }, [])
   //setEventCreated(true);//esto espamea el mensaje MongoDB connected en la consola. (El del GET de createEvent)
   //+info https://www.reactjs.wiki/too-many-re-renders-react-limits-the-number-of-renders-to-prevent-an-infinite-loop
