@@ -86,6 +86,7 @@ export default function ModifyModal({ selectedEvent }: modifyModalProps) {
                   placeholder="Actualizar comienzo del evento"
                   name="start"
                   className="w-full mt-4"
+                  defaultValue={new Date(selectedEvent.start).toISOString().slice(0,16)}
                   onChange={(e) => setNewStart(e.target.value)}
                   style={{ color: 'white' }}
                 />
@@ -98,6 +99,7 @@ export default function ModifyModal({ selectedEvent }: modifyModalProps) {
                   placeholder="Actualizar final del evento"
                   name="end"
                   className="w-full mt-4"
+                  defaultValue={new Date(selectedEvent.end).toISOString().slice(0,16)}
                   onChange={(e) => setNewEnd(e.target.value)}
                   style={{ color: 'white' }}
                 />

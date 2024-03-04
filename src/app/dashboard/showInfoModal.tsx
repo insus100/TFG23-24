@@ -26,7 +26,7 @@ export default function ShowInfoModal({ selectedEvent, onClose, setEventCreated 
       onClose();
     }
   }
-  setEventCreated(true);
+  setEventCreated(true);//esto espamea el mongodb connected en la consola.
 
   return (
     <>
