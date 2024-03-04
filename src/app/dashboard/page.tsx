@@ -36,6 +36,7 @@ function DashboarPage() {
     start: Date;
     end: Date;
     creator: any
+    attendingUsers: []
   }
 
 
@@ -50,7 +51,8 @@ function DashboarPage() {
           title: event.title,
           start: new Date(event.start),
           end: new Date(event.end),
-          creator: event.creator
+          creator: event.creator,
+          attendingUsers: event.attendingUsers
         }));
         setEvents(formattedEvents);
         if (eventCreated) {
