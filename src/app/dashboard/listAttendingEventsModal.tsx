@@ -11,16 +11,18 @@ interface EventData {
   attendingUsers: any;
 }
 
-interface ListCreatedEventsModalProps {
+interface ListAttendingEventsModalProps {
     events: EventData[];
     onClose: () => void;
   }
 
-export default function ListCreatedEventsModal({ events, onClose }: ListCreatedEventsModalProps) {
+export default function ListAttendingEventsModal({ events, onClose }: ListAttendingEventsModalProps) {
 
 
     const { data: session } = useSession();
-    const userEvents = events.filter(event => event.creator.email === session?.user?.email);
+      const userAttendingEvents = events.filter(event =>
+    event.attendingUsers.some((user: { email: string }) => user.email === session?.user?.email)
+  );
 
 
   return (
@@ -34,22 +36,14 @@ export default function ListCreatedEventsModal({ events, onClose }: ListCreatedE
                 <TableColumn>Inicio</TableColumn>
                 <TableColumn>Fin</TableColumn>
                 <TableColumn>Creador</TableColumn>
-                <TableColumn>Asistentes</TableColumn>
           </TableHeader>
-         <TableBody items={userEvents}>
+         <TableBody items={userAttendingEvents}>
          {(item) => (
         <TableRow key={item._id} style={{ color: 'white' }}>
             <TableCell>{item.title}</TableCell>
             <TableCell>{item.start.toLocaleString()}</TableCell>
             <TableCell>{item.end.toLocaleString()}</TableCell>
             <TableCell>{item.creator.username}</TableCell>
-            <TableCell>
-              <ul>
-                {item.attendingUsers.map((user: { username: string }, index: number) => (
-                  <li key={index}>{user.username}</li>
-                ))}
-              </ul>
-            </TableCell>
         </TableRow>
         )}
           </TableBody>
