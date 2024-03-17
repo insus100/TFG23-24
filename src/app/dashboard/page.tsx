@@ -1,15 +1,14 @@
 "use client"
 import { useEffect, useState } from "react";
 import { signOut, useSession } from 'next-auth/react'
-import { useRouter } from "next/navigation";
 import CalendarTest from "../calendartest/page";
-import { Button, Modal, useDisclosure, Input, Listbox } from '@nextui-org/react';
+import { Button, Modal, useDisclosure, Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Autocomplete, AutocompleteItem } from '@nextui-org/react';
 import EventModal from './eventModal'
 import ShowInfoModal from './showInfoModal'
 import ListCreatedEventsModal from './listCreatedEventsModal';
 import ListAttendingEventsModal from './listAttendingEventsModal';
 import axios from 'axios';
-import { ChangeEvent } from 'react';
+import MyNavbar from '../components/navbar';
 
 
 
@@ -23,12 +22,7 @@ function DashboarPage() {
   const { isOpen: isInfoModalOpen, onOpen: onInfoModalOpen, onOpenChange: onInfoModalOpenChange } = useDisclosure();
   const { isOpen: isListCreatedEventsModalOpen, onOpen: onListCreatedEventsModalOpen, onOpenChange: onListCreatedEventsModalOpenChange } = useDisclosure();
   const { isOpen: isListAttendingEventsModalOpen, onOpen: onListAttendingEventsModalOpen, onOpenChange: onListAttendingEventsModalOpenChange } = useDisclosure();
-  const router = useRouter();
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-
-  
-
 
   if (status === 'unauthenticated') {
     console.log("redirect to register");
@@ -44,18 +38,6 @@ function DashboarPage() {
     attendingUsers: []
   }
 
-  const handleSearchTermChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const filteredEvents = events.filter((event: EventData) =>
-  event.title.toLowerCase().includes(searchTerm.toLowerCase())
-);
-
-const handleEventSelection = (selectedEvent: EventData) => {
-  setSelectedEvent(selectedEvent);
-  onInfoModalOpen();
-};
 
   useEffect(() => {
     (async () => {
@@ -85,54 +67,15 @@ const handleEventSelection = (selectedEvent: EventData) => {
     setEvents(formattedEvents);
   };
 
-  const irAPerfil = () => {
-    return router.push('/profile')
-  };
-
   const openEventInfoModal = (event: any) => {
     //console.log("Selected event", event);
     setSelectedEvent(event);
     onInfoModalOpen();
   }
 
-
   return (
-    <div>DashboardPage
-      <Button color="danger" className="block px-4 py-2" onClick={() => { signOut() }}>
-        Cerrar sesión
-      </Button>
-      <Button color="primary" id="profileButton" onPress={() => { irAPerfil() }}>
-        Ir al Perfil
-      </Button>
-      <div className="flex w-full items-center gap-4" style={{ position: 'relative' }} >
-        <div className="flex-1" style={{ maxWidth: '200px', maxHeight: '100px' }}>
-          <Input
-            className="text-white px-4 py-4 w-full"
-            type="text"
-            placeholder="Buscar evento..."
-            style={{ color: 'white' }} // Ajustar el ancho del borde y el color
-            value={searchTerm}
-            onChange={handleSearchTermChange}
-          />
-        </div>
-        {searchTerm && (
-          <div style={{ position: 'absolute', top: '100%', left: 10, width: '10%', background: '#000', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: 999, color: 'white' }}>
-            {filteredEvents.map((event: EventData) => (
-              <div key={event._id} onClick={() => handleEventSelection(event)}>
-                {event.title}
-              </div>
-            ))}
-          </div>
-        )}
-        <Button
-          className="bg-blue-500 text-white px-4 py-2"
-          style={{ width: '80px' }}
-          onClick={() => setSearchTerm("")}
-        >
-          Borrar
-        </Button>
-      </div>
-
+    <div>
+      <MyNavbar events={events} setSelectedEvent={setSelectedEvent} onInfoModalOpen={onInfoModalOpen}/>
       <Button onPress={onEventModalOpen} className="bg-green-500 text-white px-4 py-2 block mt-4">
         Agregar Evento al Calendario
       </Button>
@@ -152,7 +95,7 @@ const handleEventSelection = (selectedEvent: EventData) => {
         isOpen={isInfoModalOpen}
         onOpenChange={onInfoModalOpenChange}
         placement="top-center"
-        onClose={async () => {setSelectedEvent(null); await getAllEvents();}}
+        onClose={async () => { setSelectedEvent(null); await getAllEvents(); }}
       >
         {selectedEvent && (
           <ShowInfoModal selectedEvent={selectedEvent} setEventCreated={setEventCreated} />
