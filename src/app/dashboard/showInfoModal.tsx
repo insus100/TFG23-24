@@ -16,6 +16,8 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
   const { isOpen: isModifyModalOpen, onOpen: onModifyModalOpen, onOpenChange: onModifyModalOpenChange } = useDisclosure();
   const [estaApuntado, setEstaApuntado] = useState(selectedEvent.attendingUsers.find((u: any) => u._id == user._id) ? true : false);
   const [loadingButton, setLoadingButton] = useState(false);
+  const [loadingButton2, setLoadingButton2] = useState(false);
+  const [esFavorito, setEsFavorito] = useState(selectedEvent.favorites.find((u: any) => u._id == user._id) ? true : false);
 
   //console.log("estaApuntado", estaApuntado);
 
@@ -54,6 +56,35 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
       setEstaApuntado(false);
     }
   }
+
+  const agregarAFavorito = async (e: any, selEvent: any) => {
+    console.log("Agregando a favorito: ", selEvent);
+    setLoadingButton2(true);
+    const res = await axios.post('/api/events/agregarFavorito', {
+      _id: selEvent._id,
+      userId: user._id,
+    });
+    if(res.data.status == 'ok') {
+      setLoadingButton2(false);
+      setEsFavorito(true);
+    }
+  }
+
+  const quitarDeFavorito = async(e: any, selEvent: any) => {
+    console.log("quitando de favoritos: ", selEvent);
+    setLoadingButton2(true);
+    const res = await axios.post('/api/events/quitarFavorito', {
+      _id: selEvent._id,
+      userId: user._id,
+    });
+    if(res.data.status == 'ok') {
+      setLoadingButton2(false);
+      setEsFavorito(false);
+    }
+  }
+
+
+
   useEffect(() => {
     setEventCreated(true);
   }, [])
@@ -99,6 +130,21 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
                   <>
                     <Button color="danger" variant="flat" isLoading={loadingButton} onPress={(e) => desapuntarseAEvento(e, selectedEvent)} >
                       Desapuntarse
+                    </Button>
+                  </>
+                }
+              </> : null }
+              {selectedEvent && user ? <>
+                {!esFavorito ? (//si no lo tiene como favorito...
+                  <>
+                    <Button color="success" variant="flat" isLoading={loadingButton2} onPress={(e) => agregarAFavorito(e, selectedEvent)} >
+                      Favorito
+                    </Button>
+                  </>
+                ) :
+                  <>
+                    <Button color="danger" variant="flat" isLoading={loadingButton2} onPress={(e) => quitarDeFavorito(e, selectedEvent)} >
+                      Quitar Favorito
                     </Button>
                   </>
                 }

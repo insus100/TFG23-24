@@ -12,7 +12,8 @@ export async function POST(request: Request) {
             start,
             end,
             creator,
-            attendingUsers: []
+            attendingUsers: [],
+            favorites: []
         })
         const savedEvent = await event.save();
         console.log("createEvent", savedEvent)
@@ -31,7 +32,7 @@ export async function GET(request: Request) {
     //return NextResponse.json({});
     //https://www.mongodb.com/community/forums/t/how-to-query-specific-values-from-a-two-level-mongoose-populate/187098
     await connectDB();
-    const events = await Event.find().populate(['creator', 'attendingUsers']);//esto saca todos.
+    const events = await Event.find().populate(['creator', 'attendingUsers', 'favorites']);//esto saca todos.
     //console.log("Fetched events successfully:", events);
     return NextResponse.json(events);
 }

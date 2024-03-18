@@ -38,7 +38,7 @@ export default function MyNavbar({ events, setSelectedEvent, onInfoModalOpen }: 
             <Navbar isBordered>
                 <NavbarContent justify="start">
                     <NavbarBrand className="mr-4">
-                        <p className="hidden sm:block font-bold text-inherit">SciEvent</p>
+                        <p className="hidden sm:block font-bold text-inherit" style={{ color: 'white' }}>SciEvent</p>
                     </NavbarBrand>
                     <NavbarContent className="hidden sm:flex gap-3">
                         <NavbarItem>
@@ -59,7 +59,7 @@ export default function MyNavbar({ events, setSelectedEvent, onInfoModalOpen }: 
                     </NavbarContent>
                 </NavbarContent>
 
-                <NavbarContent as="div" className="items-center" justify="end">
+                <NavbarContent as="div" className="items-center" justify="end" >
                     <Autocomplete
                         label="Buscar evento..."
                         classNames={{
@@ -67,7 +67,7 @@ export default function MyNavbar({ events, setSelectedEvent, onInfoModalOpen }: 
                         }}
                     >
                         {filteredEvents.map((event: EventData) => (
-                            <AutocompleteItem key={event._id} onClick={() => handleEventSelection(event)} value={event.title}>
+                            <AutocompleteItem key={event._id} onClick={() => handleEventSelection(event)} value={event.title} style={{ color: 'white' }}>
                                 {event.title}
                             </AutocompleteItem>
                         ))}
@@ -84,10 +84,10 @@ export default function MyNavbar({ events, setSelectedEvent, onInfoModalOpen }: 
                                 src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
                             />
                         </DropdownTrigger>
-                        <DropdownMenu aria-label="Profile Actions" variant="flat">
+                        <DropdownMenu aria-label="Profile Actions" variant="flat" style={{ color: 'white' }}>
                             <DropdownItem key="profile" className="h-14 gap-2">
                                 <p className="font-semibold">Conectado como:</p>
-                                <p className="font-semibold">{user.email}</p>
+                                <p className="font-semibold">{user ? (user.email):(null)}</p>
                             </DropdownItem>
                             <DropdownItem key="settings" onPress={() => { irAPerfil() }}>Ir al perfil</DropdownItem>
                             <DropdownItem key="team_settings">Team Settings</DropdownItem>

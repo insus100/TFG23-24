@@ -7,6 +7,7 @@ import EventModal from './eventModal'
 import ShowInfoModal from './showInfoModal'
 import ListCreatedEventsModal from './listCreatedEventsModal';
 import ListAttendingEventsModal from './listAttendingEventsModal';
+import ListFavoriteEventsModal from './listFavoriteEventsModal';
 import axios from 'axios';
 import MyNavbar from '../components/navbar';
 
@@ -17,11 +18,11 @@ function DashboarPage() {
   const { data: session, status } = useSession()
   const [events, setEvents] = useState([]);
   const [eventCreated, setEventCreated] = useState(false);
-  const [eventModified, setEventModified] = useState(false);
   const { isOpen: isEventModalOpen, onOpen: onEventModalOpen, onOpenChange: onEventModalOpenChange } = useDisclosure();
   const { isOpen: isInfoModalOpen, onOpen: onInfoModalOpen, onOpenChange: onInfoModalOpenChange } = useDisclosure();
   const { isOpen: isListCreatedEventsModalOpen, onOpen: onListCreatedEventsModalOpen, onOpenChange: onListCreatedEventsModalOpenChange } = useDisclosure();
   const { isOpen: isListAttendingEventsModalOpen, onOpen: onListAttendingEventsModalOpen, onOpenChange: onListAttendingEventsModalOpenChange } = useDisclosure();
+  const { isOpen: isListFavoriteEventsModalOpen, onOpen: onListFavoriteEventsModalOpen, onOpenChange: onListFavoriteEventsModalOpenChange } = useDisclosure();
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   if (status === 'unauthenticated') {
@@ -36,6 +37,7 @@ function DashboarPage() {
     end: Date;
     creator: any
     attendingUsers: []
+    favorites: []
   }
 
 
@@ -62,7 +64,8 @@ function DashboarPage() {
       start: new Date(event.start),
       end: new Date(event.end),
       creator: event.creator,
-      attendingUsers: event.attendingUsers
+      attendingUsers: event.attendingUsers,
+      favorites: event.favorites
     }));
     setEvents(formattedEvents);
   };
@@ -84,6 +87,9 @@ function DashboarPage() {
       </Button>
       <Button onPress={onListAttendingEventsModalOpen} className="bg-blue-500 text-white px-4 py-2 block mt-4">
         Ver Eventos a los que me he apuntado
+      </Button>
+      <Button onPress={onListFavoriteEventsModalOpen} className="bg-blue-500 text-white px-4 py-2 block mt-4">
+        Ver Eventos Favoritos
       </Button>
       <div className='justify-center h-[calc(100vh-4rem)] flex items-center'>
         <CalendarTest
@@ -121,6 +127,13 @@ function DashboarPage() {
         placement="top-center"
       >
         <ListAttendingEventsModal events={events} onClose={onListAttendingEventsModalOpenChange} />
+      </Modal>
+      <Modal
+        isOpen={isListFavoriteEventsModalOpen}
+        onOpenChange={onListFavoriteEventsModalOpenChange}
+        placement="top-center"
+      >
+        <ListFavoriteEventsModal events={events} onClose={onListFavoriteEventsModalOpenChange} />
       </Modal>
     </div>
   )

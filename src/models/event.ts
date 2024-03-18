@@ -22,6 +22,10 @@ creator: {
 attendingUsers: [{
     type: Schema.Types.ObjectId,
     ref: "User"
+}],
+favorites: [{
+    type: Schema.Types.ObjectId,
+    ref: "User"
 }]
 });
 
