@@ -36,11 +36,15 @@ comments: [{
         type: String,
         required: [true, "El comentario es requerido"]
     },
+}],
+ratings: [{
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     rating: {
         type: Number,
-        required: [true, "La valoración es requerida"],
-        min: [1, "La valoración mínima es 1"],
-        max: [5, "La valoración máxima es 5"]
+        default: 0
     }
 }]
 });

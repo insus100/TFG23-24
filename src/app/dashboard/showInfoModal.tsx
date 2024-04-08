@@ -6,44 +6,13 @@ import { useSession } from 'next-auth/react'
 import ModifyModal from './modifyModal'
 import CommentModal from './commentModal'
 import Comment from "../components/comment";
+import { Rating } from '@smastrom/react-rating'
 
 interface showInfoModalProps {
   selectedEvent: any;
   setEventCreated: Function;
 }
-const comments = {//esto tiene que salir de la base de datos
-  id: 1,
-  items: [
-    {
-      id:2312349128,
-      name: "hello",
-      items: [
-        {
-          id:298292929,
-          name: "hello world",
-          items:[
-            {
-              id:2982929292,
-              name: "hello world 2",
-              items:[]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: 399999,
-      name: "react js",
-      items: [
-        {
-          id:38383838,
-          name:"que pedo bue",
-          items: []
-        }
-      ]
-    }
-  ]
-}
+
 export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showInfoModalProps) {
   const { data: session, status } = useSession()
   const user = session?.user as any;
@@ -53,9 +22,15 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
   const [loadingButton, setLoadingButton] = useState(false);
   const [loadingButton2, setLoadingButton2] = useState(false);
   const [esFavorito, setEsFavorito] = useState(selectedEvent.favorites.find((u: any) => u._id == user._id) ? true : false);
-  const [commentsData, setCommentsData] = useState(comments);
+  const [commentsHidden, setCommentsHidden] = useState(true);
+  const rating = selectedEvent.ratings.find((r: any) => r.user == user._id);
+  let ratingNumber = 0;
+  if(rating) {
+    ratingNumber = parseInt(rating.rating)
+  }
+  const [eventRating, setEventRating] = useState(ratingNumber); // Initial value
   //console.log("estaApuntado", estaApuntado);
-  console.log("selectedEvent", selectedEvent);
+  //console.log("selectedEvent", selectedEvent);
   
   const eliminarEvento = async (e: any, selEvent: any, onClose: Function) => {
     const res = await axios.post('/api/events/deleteEvent', {
@@ -119,6 +94,23 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
     }
   }
 
+  const showHideComments = () => {
+    setCommentsHidden(!commentsHidden);
+  }
+
+  const handleChangeRating = async (value: number) => {
+    if(value >= 1 && value <= 5) {
+      const res = await axios.post('/api/events/valorar', {
+        rating: value,
+        userId: user._id,
+        _id: selectedEvent._id
+      })
+      if(res.data.status == 'ok') {
+        setEventRating(value);
+      }
+    }
+  }
+
 
 
   useEffect(() => {
@@ -138,12 +130,12 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
               {selectedEvent && (
                 <>
                   <p>Título: {selectedEvent.title}</p>
-                  <p>Inicio: {new Date(selectedEvent.start).toLocaleDateString() + " " + new Date(selectedEvent.start).toLocaleTimeString()}</p>
-                  <p>Fin: {new Date(selectedEvent.end).toLocaleDateString() + " " + new Date(selectedEvent.end).toLocaleTimeString()}</p>
+                  <p>Inicio: {selectedEvent.start.toLocaleDateString() + " " + selectedEvent.start.toLocaleTimeString()}</p>
+                  <p>Fin: {selectedEvent.end.toLocaleDateString() + " " + selectedEvent.end.toLocaleTimeString()}</p>
                   <p>Creador: {selectedEvent.creator.username}</p>
-                  <p>Valoración media: </p>
-                  <h1 className="text-xl font-bold">Comentarios</h1>
-                  <Comment comments={selectedEvent.comments} />
+                  <p>Valoración: </p> <Rating style={{ maxWidth: 150 }} value={eventRating} onChange={handleChangeRating} />
+                  <h1 className="text-xl font-bold cursor-pointer" onClick={showHideComments}>{commentsHidden ? "Mostrar comentarios" : "Ocultar comentarios"}</h1>
+                  <Comment hide={!commentsHidden} userId={user._id} eventId={selectedEvent._id} comments={selectedEvent.comments} />
                 </>
               )}
             </ModalBody>
@@ -156,9 +148,6 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
                   </Button>
                   <Button color="primary" variant="flat" onPress={onModifyModalOpen} >
                     Modificar
-                  </Button>
-                  <Button color="primary" variant="flat" onPress={onCommentModalOpen} >
-                    Valorar
                   </Button>
                 </>)
               }

@@ -14,7 +14,8 @@ export async function POST(request: Request) {
             creator,
             attendingUsers: [],
             favorites: [],
-            comments: []
+            comments: [],
+            ratings: []
         })
         const savedEvent = await event.save();
         console.log("createEvent", savedEvent)

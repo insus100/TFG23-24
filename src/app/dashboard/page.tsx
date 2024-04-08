@@ -48,18 +48,13 @@ function DashboarPage() {
     const response = await axios.get('/api/events/createEvent');
     console.log("events", response);
     const fetchedEvents = response.data;
-    /*const formattedEvents = fetchedEvents.map((event: any) => ({
-      _id: event._id,
-      title: event.title,
-      start: new Date(event.start),
-      end: new Date(event.end),
-      creator: event.creator,
-      attendingUsers: event.attendingUsers,
-      comments: event.comments,
-      favorites: event.favorites
+    const formattedEvents = fetchedEvents.map(({start, end, ...rest}: any) => ({
+      start: new Date(start),
+      end: new Date(end),
+      ...rest
     }));
-    setEvents(formattedEvents);*/
-    setEvents(fetchedEvents);
+    setEvents(formattedEvents);
+  
   };
 
   const openEventInfoModal = (event: any) => {

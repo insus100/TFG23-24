@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
+    "@smastrom/react-rating": "^1.5.0",
     "axios": "^1.6.5",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.10",
