@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useSession } from 'next-auth/react'
 import ModifyModal from './modifyModal'
+import CommentModal from './commentModal'
 
 interface showInfoModalProps {
   selectedEvent: any;
@@ -14,6 +15,7 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
   const { data: session, status } = useSession()
   const user = session?.user as any;
   const { isOpen: isModifyModalOpen, onOpen: onModifyModalOpen, onOpenChange: onModifyModalOpenChange } = useDisclosure();
+  const { isOpen: isCommentModalOpen, onOpen: onCommentModalOpen, onOpenChange: onCommentModalOpenChange } = useDisclosure();
   const [estaApuntado, setEstaApuntado] = useState(selectedEvent.attendingUsers.find((u: any) => u._id == user._id) ? true : false);
   const [loadingButton, setLoadingButton] = useState(false);
   const [loadingButton2, setLoadingButton2] = useState(false);
@@ -117,6 +119,9 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
                   <Button color="primary" variant="flat" onPress={onModifyModalOpen} >
                     Modificar
                   </Button>
+                  <Button color="primary" variant="flat" onPress={onCommentModalOpen} >
+                    Añadir Valoración
+                  </Button>
                 </>)
               }
               {selectedEvent && user ? <>
@@ -159,6 +164,15 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
             >
             {selectedEvent && (
               <ModifyModal selectedEvent={selectedEvent}  />
+            )}
+            </Modal>
+            <Modal
+            isOpen={isCommentModalOpen}
+            onOpenChange={onCommentModalOpenChange}
+            placement="top-center"
+            >
+            {selectedEvent && (
+              <CommentModal selectedEvent={selectedEvent}  />
             )}
             </Modal>
           </>

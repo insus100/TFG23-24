@@ -26,6 +26,22 @@ attendingUsers: [{
 favorites: [{
     type: Schema.Types.ObjectId,
     ref: "User"
+}],
+comments: [{
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    comment: {
+        type: String,
+        required: [true, "El comentario es requerido"]
+    },
+    rating: {
+        type: Number,
+        required: [true, "La valoración es requerida"],
+        min: [1, "La valoración mínima es 1"],
+        max: [5, "La valoración máxima es 5"]
+    }
 }]
 });
 
