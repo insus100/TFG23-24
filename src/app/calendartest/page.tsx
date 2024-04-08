@@ -2,6 +2,7 @@
 import { Calendar, dayjsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from 'dayjs';
+import 'dayjs/locale/es'
 
 interface CalendarTestProps {
   events: { start: Date; end: Date; title: string }[];
@@ -9,8 +10,22 @@ interface CalendarTestProps {
 }
 
 function CalendarTest({ events, openEventInfoModal: openEventInfoModal }: CalendarTestProps) {
+  dayjs.locale("es");
   const localizer = dayjsLocalizer(dayjs);
-
+  const messages = {
+    allDay: "Todo el día",
+    previous: "Anterior",
+    next: "Siguiente",
+    today: "Hoy",
+    month: "Mes",
+    week: "Semana",
+    day: "Día",
+    agenda: "Agenda",
+    date: "Fecha",
+    time: "Hora",
+    event: "Evento",
+    noEventsInRange: "Sin eventos"
+  };
   const handleEventClick = (event: { start: Date; end: Date; title: string }) => {
     //console.log("handleEventClick", event);
     openEventInfoModal(event);
@@ -28,6 +43,8 @@ function CalendarTest({ events, openEventInfoModal: openEventInfoModal }: Calend
           endAccessor="end"
           style={{ height: 700 }}
           onSelectEvent={handleEventClick}
+          messages={messages}
+          culture="es"
         />
     </div>
   )
