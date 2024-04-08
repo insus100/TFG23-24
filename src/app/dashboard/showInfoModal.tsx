@@ -1,16 +1,49 @@
 "use client"
-import { ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Checkbox, Input, Link, useDisclosure, Modal, select } from "@nextui-org/react";
+import { ModalContent, ModalHeader, ModalBody, ModalFooter, Button, ButtonGroup, Checkbox, Input, Link, useDisclosure, Modal, select } from "@nextui-org/react";
 import { FormEvent, useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useSession } from 'next-auth/react'
 import ModifyModal from './modifyModal'
 import CommentModal from './commentModal'
+import Comment from "../components/comment";
 
 interface showInfoModalProps {
   selectedEvent: any;
   setEventCreated: Function;
 }
-
+const comments = {//esto tiene que salir de la base de datos
+  id: 1,
+  items: [
+    {
+      id:2312349128,
+      name: "hello",
+      items: [
+        {
+          id:298292929,
+          name: "hello world",
+          items:[
+            {
+              id:2982929292,
+              name: "hello world 2",
+              items:[]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 399999,
+      name: "react js",
+      items: [
+        {
+          id:38383838,
+          name:"que pedo bue",
+          items: []
+        }
+      ]
+    }
+  ]
+}
 export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showInfoModalProps) {
   const { data: session, status } = useSession()
   const user = session?.user as any;
@@ -20,9 +53,10 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
   const [loadingButton, setLoadingButton] = useState(false);
   const [loadingButton2, setLoadingButton2] = useState(false);
   const [esFavorito, setEsFavorito] = useState(selectedEvent.favorites.find((u: any) => u._id == user._id) ? true : false);
-
+  const [commentsData, setCommentsData] = useState(comments);
   //console.log("estaApuntado", estaApuntado);
-
+  console.log("selectedEvent", selectedEvent);
+  
   const eliminarEvento = async (e: any, selEvent: any, onClose: Function) => {
     const res = await axios.post('/api/events/deleteEvent', {
       _id: selEvent._id
@@ -104,13 +138,17 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
               {selectedEvent && (
                 <>
                   <p>Título: {selectedEvent.title}</p>
-                  <p>Inicio: {selectedEvent.start.toLocaleDateString() + " " + selectedEvent.start.toLocaleTimeString()}</p>
-                  <p>Fin: {selectedEvent.end.toLocaleDateString() + " " + selectedEvent.end.toLocaleTimeString()}</p>
+                  <p>Inicio: {new Date(selectedEvent.start).toLocaleDateString() + " " + new Date(selectedEvent.start).toLocaleTimeString()}</p>
+                  <p>Fin: {new Date(selectedEvent.end).toLocaleDateString() + " " + new Date(selectedEvent.end).toLocaleTimeString()}</p>
                   <p>Creador: {selectedEvent.creator.username}</p>
+                  <p>Valoración media: </p>
+                  <h1 className="text-xl font-bold">Comentarios</h1>
+                  <Comment comments={selectedEvent.comments} />
                 </>
               )}
             </ModalBody>
             <ModalFooter>
+              <ButtonGroup>
               {selectedEvent && user && selectedEvent.creator._id === user._id &&
                 (<>
                   <Button color="danger" variant="flat" onPress={(e) => eliminarEvento(e, selectedEvent, onClose)}>
@@ -120,7 +158,7 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
                     Modificar
                   </Button>
                   <Button color="primary" variant="flat" onPress={onCommentModalOpen} >
-                    Añadir Valoración
+                    Valorar
                   </Button>
                 </>)
               }
@@ -156,6 +194,7 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
               </> : null }
               
               {/* Puedes agregar más acciones o botones según tus necesidades */}
+              </ButtonGroup>
             </ModalFooter>
             <Modal
             isOpen={isModifyModalOpen}

@@ -30,16 +30,6 @@ function DashboarPage() {
     //return redirect('/login');
   }
 
-  interface EventData {
-    _id: string;
-    title: string;
-    start: Date;
-    end: Date;
-    creator: any
-    attendingUsers: []
-    favorites: []
-  }
-
 
   useEffect(() => {
     (async () => {
@@ -58,16 +48,18 @@ function DashboarPage() {
     const response = await axios.get('/api/events/createEvent');
     console.log("events", response);
     const fetchedEvents = response.data;
-    const formattedEvents = fetchedEvents.map((event: EventData) => ({
+    /*const formattedEvents = fetchedEvents.map((event: any) => ({
       _id: event._id,
       title: event.title,
       start: new Date(event.start),
       end: new Date(event.end),
       creator: event.creator,
       attendingUsers: event.attendingUsers,
+      comments: event.comments,
       favorites: event.favorites
     }));
-    setEvents(formattedEvents);
+    setEvents(formattedEvents);*/
+    setEvents(fetchedEvents);
   };
 
   const openEventInfoModal = (event: any) => {
@@ -102,6 +94,8 @@ function DashboarPage() {
         onOpenChange={onInfoModalOpenChange}
         placement="top-center"
         onClose={async () => { setSelectedEvent(null); await getAllEvents(); }}
+        scrollBehavior="inside"
+        size="2xl"
       >
         {selectedEvent && (
           <ShowInfoModal selectedEvent={selectedEvent} setEventCreated={setEventCreated} />
