@@ -134,7 +134,7 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
                   <p>Fin: {selectedEvent.end.toLocaleDateString() + " " + selectedEvent.end.toLocaleTimeString()}</p>
                   <p>Creador: {selectedEvent.creator.username}</p>
                   <p>Valoración: </p> <Rating style={{ maxWidth: 150 }} value={eventRating} onChange={handleChangeRating} />
-                  <h1 className="text-xl font-bold cursor-pointer" onClick={showHideComments}>{commentsHidden ? "Mostrar comentarios" : "Ocultar comentarios"}</h1>
+                  <h1 className="text-xl font-bold cursor-pointer hover:text-red-500" onClick={showHideComments}>{commentsHidden ? "Mostrar comentarios" : "Ocultar comentarios"}</h1>
                   <Comment hide={!commentsHidden} userId={user._id} eventId={selectedEvent._id} comments={selectedEvent.comments} />
                 </>
               )}
