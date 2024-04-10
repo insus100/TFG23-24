@@ -4,7 +4,6 @@ import { FormEvent, useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useSession } from 'next-auth/react'
 import ModifyModal from './modifyModal'
-import CommentModal from './commentModal'
 import Comment from "../components/comment";
 import { Rating } from '@smastrom/react-rating'
 
@@ -192,15 +191,6 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
             >
             {selectedEvent && (
               <ModifyModal selectedEvent={selectedEvent}  />
-            )}
-            </Modal>
-            <Modal
-            isOpen={isCommentModalOpen}
-            onOpenChange={onCommentModalOpenChange}
-            placement="top-center"
-            >
-            {selectedEvent && (
-              <CommentModal selectedEvent={selectedEvent}  />
             )}
             </Modal>
           </>
