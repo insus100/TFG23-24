@@ -78,6 +78,7 @@ export default function Comment({comments, hide, eventId, userId} : any) {
                         type="text"
                         value={editingComment.text}
                         onChange={(e) => setEditingComment({ commentId: c._id, text: e.target.value })}
+                        variant="bordered"
                         className="max-w-xs mt-2 mr-2"
                       />
                       <Button
@@ -85,7 +86,7 @@ export default function Comment({comments, hide, eventId, userId} : any) {
                         variant="flat"
                         onPress={() => onEditComment(c._id, editingComment.text)}
                         isLoading={loadingEditButton}
-                        className="inline-block mt-2"
+                        className="inline-block mt-4 ml-1"
                       >
                         Confirmar edición
                       </Button>
@@ -105,7 +106,7 @@ export default function Comment({comments, hide, eventId, userId} : any) {
                           color="success"
                           variant="flat"
                           onPress={() => setEditingComment({ commentId: c._id, text: c.comment })}
-                          className="inline-block mt-2 ml-2"
+                          className="inline-block mt-4 ml-2"
                         >
                           Editar
                         </Button>
