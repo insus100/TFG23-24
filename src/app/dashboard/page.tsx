@@ -5,6 +5,7 @@ import CalendarTest from "../calendartest/page";
 import { Button, Modal, useDisclosure, Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Autocomplete, AutocompleteItem } from '@nextui-org/react';
 import EventModal from './eventModal'
 import ShowInfoModal from './showInfoModal'
+import ShowUserModal from './showUserModal'
 import ListCreatedEventsModal from './listCreatedEventsModal';
 import ListAttendingEventsModal from './listAttendingEventsModal';
 import ListFavoriteEventsModal from './listFavoriteEventsModal';
@@ -17,6 +18,7 @@ function DashboarPage() {
   //const _status = await getServerSession(authOptions)
   const { data: session, status } = useSession()
   const [events, setEvents] = useState([]);
+  const [users, setUsers] = useState([]);
   const [eventCreated, setEventCreated] = useState(false);
   const { isOpen: isEventModalOpen, onOpen: onEventModalOpen, onOpenChange: onEventModalOpenChange } = useDisclosure();
   const { isOpen: isInfoModalOpen, onOpen: onInfoModalOpen, onOpenChange: onInfoModalOpenChange } = useDisclosure();
@@ -24,6 +26,8 @@ function DashboarPage() {
   const { isOpen: isListAttendingEventsModalOpen, onOpen: onListAttendingEventsModalOpen, onOpenChange: onListAttendingEventsModalOpenChange } = useDisclosure();
   const { isOpen: isListFavoriteEventsModalOpen, onOpen: onListFavoriteEventsModalOpen, onOpenChange: onListFavoriteEventsModalOpenChange } = useDisclosure();
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const { isOpen: isUserModalOpen, onOpen: onUserModalOpen, onOpenChange: onUserModalOpenChange } = useDisclosure();
 
   if (status === 'unauthenticated') {
     console.log("redirect to register");
@@ -34,6 +38,7 @@ function DashboarPage() {
   useEffect(() => {
     (async () => {
       try {
+        await getAllUsers();
         await getAllEvents();
         if (eventCreated) {
           setEventCreated(false);
@@ -54,7 +59,13 @@ function DashboarPage() {
       ...rest
     }));
     setEvents(formattedEvents);
-  
+  };
+
+  const getAllUsers = async () => {
+    const response = await axios.get('/api/users');
+    console.log("users", response);
+    const fetchedUsers = response.data;
+    setUsers(fetchedUsers);
   };
 
   const openEventInfoModal = (event: any) => {
@@ -65,7 +76,7 @@ function DashboarPage() {
 
   return (
     <div>
-      <MyNavbar events={events} setSelectedEvent={setSelectedEvent} onInfoModalOpen={onInfoModalOpen}/>
+      <MyNavbar users={users} events={events} setSelectedEvent={setSelectedEvent} onInfoModalOpen={onInfoModalOpen} setSelectedUser={setSelectedUser} onUserModalOpen={onUserModalOpen}/>
       <Button onPress={onEventModalOpen} className="bg-green-500 text-white px-4 py-2 block mt-4">
         Agregar Evento al Calendario
       </Button>
@@ -94,6 +105,18 @@ function DashboarPage() {
       >
         {selectedEvent && (
           <ShowInfoModal selectedEvent={selectedEvent} setEventCreated={setEventCreated} />
+        )}
+      </Modal>
+      <Modal
+        isOpen={isUserModalOpen}
+        onOpenChange={onUserModalOpenChange}
+        placement="top-center"
+        onClose={async () => { setSelectedUser(null); await getAllUsers(); }}
+        scrollBehavior="inside"
+        size="2xl"
+      >
+        {selectedUser && (
+          <ShowUserModal selectedUser={selectedUser}/>
         )}
       </Modal>
       <Modal

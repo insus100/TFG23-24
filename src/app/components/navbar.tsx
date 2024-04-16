@@ -5,7 +5,7 @@ import { signOut, useSession } from 'next-auth/react'
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function MyNavbar({ events, setSelectedEvent, onInfoModalOpen }: any) {
+export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalOpen, setSelectedUser, onUserModalOpen }: any) {
     const { data: session, status } = useSession()
     const user = session?.user as any;
     const router = useRouter();
@@ -18,6 +18,12 @@ export default function MyNavbar({ events, setSelectedEvent, onInfoModalOpen }: 
         end: Date;
         creator: any
         attendingUsers: []
+    }
+
+    interface UserData {
+        _id: string;
+        username: string;
+        email: string;
     }
 
     const irAPerfil = () => {
@@ -33,6 +39,12 @@ export default function MyNavbar({ events, setSelectedEvent, onInfoModalOpen }: 
         setSelectedEvent(selectedEvent);
         onInfoModalOpen();
     };
+
+    const handleUserSelection = (selectedUser: UserData) => {
+        setSelectedUser(selectedUser);
+        onUserModalOpen();
+    };
+
     return (
         <>
             <Navbar isBordered>
@@ -69,6 +81,18 @@ export default function MyNavbar({ events, setSelectedEvent, onInfoModalOpen }: 
                         {filteredEvents.map((event: EventData) => (
                             <AutocompleteItem key={event._id} onClick={() => handleEventSelection(event)} value={event.title} style={{ color: 'white' }}>
                                 {event.title}
+                            </AutocompleteItem>
+                        ))}
+                    </Autocomplete>
+                    <Autocomplete
+                        label="Buscar usuario..."
+                        classNames={{
+                            base: "max-w-full sm:max-w-[10rem] h-10",
+                        }}
+                    >
+                        {users.map((user: UserData) => (
+                            <AutocompleteItem key={user._id} onClick={() => handleUserSelection(user)} value={user.username} style={{ color: 'white' }}>
+                                {user.username}
                             </AutocompleteItem>
                         ))}
                     </Autocomplete>

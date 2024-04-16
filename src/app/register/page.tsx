@@ -50,6 +50,7 @@ function RegisterPage() {
           placeholder="Introduce Nombre de usuario"
           name="username"
           className="w-full mb-2"
+          style={{ color: 'white' }}
         />
 
         <Input
@@ -60,6 +61,7 @@ function RegisterPage() {
           placeholder="Introduce correo electrónico"
           name="email"
           className="py-2 mb-2 w-full"
+          style={{ color: 'white' }}
         />
 
         <Input
@@ -69,6 +71,7 @@ function RegisterPage() {
           type="password"
           name="password"
           className="w-full"
+          style={{ color: 'white' }}
         />
 
         <Button color="primary" type="submit" className="w-full block mt-4">

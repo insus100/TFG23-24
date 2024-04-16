@@ -27,7 +27,8 @@ export async function POST(request: Request) {
         const user = new User({
             email,
             username,
-            password: hashedpassword
+            password: hashedpassword,
+            followers: []
         })
         const savedUser = await user.save();
         console.log(savedUser)
