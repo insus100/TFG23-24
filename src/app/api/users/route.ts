@@ -8,8 +8,8 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     await connectDB();
-    const users = await User.find();
+    const users = await User.find().populate(['followers']);
     //console.log("Fetched users successfully:", users);
-    return NextResponse.json(users);
+    return NextResponse.json(users);//esto saca todos.;
 }
 

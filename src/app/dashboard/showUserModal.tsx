@@ -14,9 +14,6 @@ export default function ShowUserModal({ selectedUser  }: showUserModalProps) {
   const [loadingButton, setLoadingButton] = useState(false);
   const [seguido, setSeguido] = useState(selectedUser.followers.find((u: any) => u._id == user._id) ? true : false);
 
-  if(seguido){
-    console.log("Hola");
-  }
 
   const seguirUsuario = async (e: any, selUser: any) => {
     console.log("Siguiendo a usuario: ", selUser);
@@ -77,8 +74,6 @@ export default function ShowUserModal({ selectedUser  }: showUserModalProps) {
                   </>
                 }
               </> : null }
-              
-              {/* Puedes agregar más acciones o botones según tus necesidades */}
               </ButtonGroup>
             </ModalFooter>
           </>
