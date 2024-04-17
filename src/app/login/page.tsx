@@ -1,5 +1,5 @@
 'use client';
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";

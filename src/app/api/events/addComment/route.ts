@@ -1,6 +1,5 @@
 import { connectDB } from "@/libs/mongodb";
 import Event from "@/models/event";
-import { user } from "@nextui-org/react";
 import {  NextResponse } from "next/server";
 
 export async function POST(request: Request){

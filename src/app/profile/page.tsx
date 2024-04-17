@@ -2,7 +2,7 @@
 import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from "next/navigation";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { Button, Input, Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
 
 function ProfilePage() {

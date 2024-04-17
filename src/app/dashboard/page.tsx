@@ -1,14 +1,15 @@
 "use client"
 import { useEffect, useState } from "react";
-import { signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import CalendarTest from "../calendartest/page";
-import { Button, Modal, useDisclosure, Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Autocomplete, AutocompleteItem } from '@nextui-org/react';
+import { Button, Modal, useDisclosure } from '@nextui-org/react';
 import EventModal from './eventModal'
 import ShowInfoModal from './showInfoModal'
 import ShowUserModal from './showUserModal'
 import ListCreatedEventsModal from './listCreatedEventsModal';
 import ListAttendingEventsModal from './listAttendingEventsModal';
 import ListFavoriteEventsModal from './listFavoriteEventsModal';
+import ListFollowersModal from './listFollowersModal';
 import axios from 'axios';
 import MyNavbar from '../components/navbar';
 
@@ -25,6 +26,7 @@ function DashboarPage() {
   const { isOpen: isListCreatedEventsModalOpen, onOpen: onListCreatedEventsModalOpen, onOpenChange: onListCreatedEventsModalOpenChange } = useDisclosure();
   const { isOpen: isListAttendingEventsModalOpen, onOpen: onListAttendingEventsModalOpen, onOpenChange: onListAttendingEventsModalOpenChange } = useDisclosure();
   const { isOpen: isListFavoriteEventsModalOpen, onOpen: onListFavoriteEventsModalOpen, onOpenChange: onListFavoriteEventsModalOpenChange } = useDisclosure();
+  const { isOpen: isListFollowersModalOpen, onOpen: onListFollowersModalOpen, onOpenChange: onListFollowersModalOpenChange } = useDisclosure();
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const { isOpen: isUserModalOpen, onOpen: onUserModalOpen, onOpenChange: onUserModalOpenChange } = useDisclosure();
@@ -89,6 +91,9 @@ function DashboarPage() {
       <Button onPress={onListFavoriteEventsModalOpen} className="bg-blue-500 text-white px-4 py-2 block mt-4">
         Ver Eventos Favoritos
       </Button>
+      <Button onPress={onListFollowersModalOpen} className="bg-blue-500 text-white px-4 py-2 block mt-4">
+        Ver Seguidores
+      </Button>
       <div className='justify-center h-[calc(100vh-4rem)] flex items-center'>
         <CalendarTest
           events={events}
@@ -146,6 +151,13 @@ function DashboarPage() {
         placement="top-center"
       >
         <ListFavoriteEventsModal events={events} onClose={onListFavoriteEventsModalOpenChange} />
+      </Modal>
+      <Modal
+        isOpen={isListFollowersModalOpen}
+        onOpenChange={onListFollowersModalOpenChange}
+        placement="top-center"
+      >
+        <ListFollowersModal onClose={onListFollowersModalOpenChange} />
       </Modal>
     </div>
   )

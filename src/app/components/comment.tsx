@@ -1,6 +1,6 @@
 "use client"
-import { useEffect, useRef, useState } from "react";
-import { Button, Checkbox, Input, Link } from "@nextui-org/react";
+import { useState } from "react";
+import { Button, Input } from "@nextui-org/react";
 import axios from "axios";
 
 export default function Comment({comments, hide, eventId, userId} : any) {

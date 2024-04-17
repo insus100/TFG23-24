@@ -1,7 +1,7 @@
 "use client"
-import { ModalContent, ModalHeader, ModalBody, ModalFooter, Button, ButtonGroup, Checkbox, Input, Link, useDisclosure, Modal, select } from "@nextui-org/react";
-import { FormEvent, useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
+import { ModalContent, ModalHeader, ModalBody, ModalFooter, Button, ButtonGroup } from "@nextui-org/react";
+import { useState } from "react";
+import axios from "axios";
 import { useSession } from 'next-auth/react'
 
 interface showUserModalProps {

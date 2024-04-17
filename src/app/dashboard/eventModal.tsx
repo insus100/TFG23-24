@@ -1,5 +1,5 @@
 "use client"
-import { ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Checkbox, Input, Link } from "@nextui-org/react";
+import { ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input } from "@nextui-org/react";
 import { FormEvent } from "react";
 import axios, { AxiosError } from "axios";
 import { useSession } from 'next-auth/react'
