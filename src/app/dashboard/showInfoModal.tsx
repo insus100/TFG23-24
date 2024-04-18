@@ -16,10 +16,11 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
   const { data: session, status } = useSession()
   const user = session?.user as any;
   const { isOpen: isModifyModalOpen, onOpen: onModifyModalOpen, onOpenChange: onModifyModalOpenChange } = useDisclosure();
-  const { isOpen: isCommentModalOpen, onOpen: onCommentModalOpen, onOpenChange: onCommentModalOpenChange } = useDisclosure();
   const [estaApuntado, setEstaApuntado] = useState(selectedEvent.attendingUsers.find((u: any) => u._id == user._id) ? true : false);
+  const [recomendado, setRecomendado] = useState(selectedEvent.recommendedBy.find((u: any) => u._id == user._id) ? true : false);
   const [loadingButton, setLoadingButton] = useState(false);
   const [loadingButton2, setLoadingButton2] = useState(false);
+  const [loadingButton3, setLoadingButton3] = useState(false);
   const [esFavorito, setEsFavorito] = useState(selectedEvent.favorites.find((u: any) => u._id == user._id) ? true : false);
   const [commentsHidden, setCommentsHidden] = useState(true);
   const rating = selectedEvent.ratings.find((r: any) => r.user == user._id);
@@ -90,6 +91,32 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
     if(res.data.status == 'ok') {
       setLoadingButton2(false);
       setEsFavorito(false);
+    }
+  }
+
+  const recomendar = async (e: any, selEvent: any) => {
+    console.log("Recomendando evento: ", selEvent);
+    setLoadingButton3(true);
+    const res = await axios.post('/api/events/recomendar', {
+      _id: selEvent._id,
+      userId: user._id,
+    });
+    if(res.data.status == 'ok') {
+      setLoadingButton3(false);
+      setRecomendado(true);
+    }
+  }
+
+  const quitarRecomendado = async(e: any, selEvent: any) => {
+    console.log("quitando de recomendados: ", selEvent);
+    setLoadingButton3(true);
+    const res = await axios.post('/api/events/quitarRecomendado', {
+      _id: selEvent._id,
+      userId: user._id,
+    });
+    if(res.data.status == 'ok') {
+      setLoadingButton3(false);
+      setRecomendado(false);
     }
   }
 
@@ -180,7 +207,21 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
                   </>
                 }
               </> : null }
-              
+              {selectedEvent && user ? <>
+                {!recomendado ? (//si no lo ha recomendado ya...
+                  <>
+                    <Button color="success" variant="flat" isLoading={loadingButton3} onPress={(e) => recomendar(e, selectedEvent)} >
+                      Recomendar
+                    </Button>
+                  </>
+                ) :
+                  <>
+                    <Button color="danger" variant="flat" isLoading={loadingButton3} onPress={(e) => quitarRecomendado(e, selectedEvent)} >
+                      Quitar Recomendado
+                    </Button>
+                  </>
+                }
+              </> : null }
               {/* Puedes agregar más acciones o botones según tus necesidades */}
               </ButtonGroup>
             </ModalFooter>

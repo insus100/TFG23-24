@@ -17,7 +17,7 @@ interface ListFavoriteEventsModalProps {
     onClose: () => void;
   }
 
-export default function ListAttendingEventsModal({ events, onClose }: ListFavoriteEventsModalProps) {
+export default function ListFavoriteEventsModal({ events, onClose }: ListFavoriteEventsModalProps) {
 
 
     const { data: session } = useSession();

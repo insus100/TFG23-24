@@ -46,7 +46,11 @@ ratings: [{
         type: Number,
         default: 0
     }
-}]
+}],
+recommendedBy: [{
+    type: Schema.Types.ObjectId,
+    ref: "User"
+}],
 });
 
 const Event = models.Event || model('Event', eventSchema);
