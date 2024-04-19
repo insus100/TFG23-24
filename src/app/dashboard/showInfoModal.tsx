@@ -29,8 +29,6 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
     ratingNumber = parseInt(rating.rating)
   }
   const [eventRating, setEventRating] = useState(ratingNumber); // Initial value
-  //console.log("estaApuntado", estaApuntado);
-  //console.log("selectedEvent", selectedEvent);
   
   const eliminarEvento = async (e: any, selEvent: any, onClose: Function) => {
     const res = await axios.post('/api/events/deleteEvent', {

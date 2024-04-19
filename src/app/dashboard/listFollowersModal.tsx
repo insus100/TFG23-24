@@ -6,6 +6,7 @@ interface UserData {
     _id: string;
     username: string;
     email: string;
+    followers: any;
 }
 interface ListFollowersModalProps {
     onClose: () => void;

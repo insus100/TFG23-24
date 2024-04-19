@@ -51,6 +51,10 @@ recommendedBy: [{
     type: Schema.Types.ObjectId,
     ref: "User"
 }],
+rejectedBy: [{
+    type: Schema.Types.ObjectId,
+    ref: "User"
+}],
 });
 
 const Event = models.Event || model('Event', eventSchema);

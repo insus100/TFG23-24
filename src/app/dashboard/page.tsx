@@ -113,7 +113,7 @@ function DashboarPage() {
         onListRecommendationsModalOpen={onListRecommendationsModalOpen}
         onEventModalOpen={onEventModalOpen}
       />
-      <div className='justify-center h-[calc(100vh-4rem)] flex items-center'>
+      <div className='justify-center flex items-center'>
         <CalendarTest
           events={events}
           openEventInfoModal={openEventInfoModal}
@@ -138,7 +138,6 @@ function DashboarPage() {
         placement="top-center"
         onClose={async () => { setSelectedUser(null); await getAllUsers(); }}
         scrollBehavior="inside"
-        size="2xl"
       >
         {selectedUser && (
           <ShowUserModal selectedUser={selectedUser}/>
@@ -183,8 +182,9 @@ function DashboarPage() {
         isOpen={isListRecommendationsModalOpen}
         onOpenChange={onListRecommendationsModalOpenChange}
         placement="top-center"
+        size="2xl"
       >
-        <ListRecommendationsModal events={events} users={users} onClose={onListRecommendationsModalOpenChange} />
+        <ListRecommendationsModal events={events} users={users} onClose={onListRecommendationsModalOpenChange} setEventCreated={setEventCreated} />
       </Modal>
     </div>
   )

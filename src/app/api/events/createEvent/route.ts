@@ -35,7 +35,7 @@ export async function GET(request: Request) {
     //return NextResponse.json({});
     //https://www.mongodb.com/community/forums/t/how-to-query-specific-values-from-a-two-level-mongoose-populate/187098
     await connectDB();
-    const events = await Event.find().populate(['creator', 'attendingUsers', 'favorites', 'comments.user', 'recommendedBy']);//esto saca todos.
+    const events = await Event.find().populate(['creator', 'attendingUsers', 'favorites', 'comments.user', 'recommendedBy', 'rejectedBy']);//esto saca todos.
     //console.log("Fetched events successfully:", events);
     return NextResponse.json(events);
 }

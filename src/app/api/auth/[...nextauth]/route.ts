@@ -16,7 +16,7 @@ const handler = NextAuth({
                 await connectDB();
                 const userFound = await User.findOne({
                     email: credentials?.email,
-                }).select("+password");
+                }).select("+password").populate('followers');
 
                 if (!userFound) throw new Error("No se encontró el usuario");
 
