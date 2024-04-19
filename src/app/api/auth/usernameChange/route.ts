@@ -33,16 +33,16 @@ export async function POST(request: Request){
   
       return NextResponse.json(
         {
-            message: "Contraseña actualizada con éxito"
+            message: "Nombre de usuario actualizado con éxito"
         },
         {
             status: 200
         })
     } catch (error) {
-      console.error('Error al cambiar la contraseña:', error);
+      console.error('Error al cambiar el nombre de usuario:', error);
       return NextResponse.json(
         {
-            message: "Error interno del servidor"
+            message: "Error interno del servidor " + error
         },
         {
             status: 500

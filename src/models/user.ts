@@ -18,8 +18,8 @@ password: {
 username: {
     type: String,
     required: [true, "Nombre de usuario requerido"],
-    minLength: [4, "Longitud mínima nombre de usuario 4"],
-    maxLength: [128, "Longitud máxima nombre de usuario 128"]
+    minLength: [3, "Longitud mínima nombre de usuario 3"],
+    maxLength: [512, "Longitud máxima nombre de usuario 512"]
 },
 followers: [{
     type: Schema.Types.ObjectId,

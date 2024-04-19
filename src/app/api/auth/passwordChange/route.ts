@@ -8,7 +8,15 @@ export async function POST(request: Request){
      const { password, curEmail } = await request.json();
   
     // Validaciones adicionales, si es necesario
-  
+    if(password.length < 4) {
+        return NextResponse.json(
+            {
+                message: "La longitud mínima de la contraseña es 4 caracteres"
+            },
+            {
+                status: 500
+            })
+    }
     try {
         await connectDB();
   
@@ -45,7 +53,7 @@ export async function POST(request: Request){
       console.error('Error al cambiar la contraseña:', error);
       return NextResponse.json(
         {
-            message: "Error interno del servidor"
+            message: "Error interno del servidor " + error
         },
         {
             status: 500

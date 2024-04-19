@@ -33,7 +33,7 @@ export async function POST(request: Request){
   
       return NextResponse.json(
         {
-            message: "Contraseña actualizada con éxito"
+            message: "E-mail actualizado con éxito"
         },
         {
             status: 200
@@ -42,7 +42,7 @@ export async function POST(request: Request){
       console.error('Error al cambiar la contraseña:', error);
       return NextResponse.json(
         {
-            message: "Error interno del servidor"
+            message: "Error interno del servidor " + error
         },
         {
             status: 500

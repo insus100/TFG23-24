@@ -19,47 +19,69 @@ function ProfilePage() {
   const [newUsername, setNewUsername] = useState('');
   const [newEmail, setNewEmail] = useState('');
 
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
   const handleChangePassword = async () => {
+    setPasswordError("");
     // Implementa la lógica para cambiar la contraseña utilizando la API de NextAuth
-    const response = await axios.post('/api/auth/passwordChange', {
-      password: newPassword,
-      curEmail: user.email
-    });
-    if (response.status == 200) {
-      console.log('Contraseña actualizada con éxito');
-      update({ user: {...session?.user, password: 'hashearlaaa'} });
-    } else {
-      console.error('Error al actualizar la contraseña');
+    try {
+      const response = await axios.post('/api/auth/passwordChange', {
+        password: newPassword,
+        curEmail: user.email
+      });
+      if (response.status == 200) {
+        console.log('Contraseña actualizada con éxito');
+        update({ user: {...session?.user, password: 'hashearlaaa'} });
+      } else {
+        console.error('Error al actualizar la contraseña');
+      }
+    } catch(err: any) {
+      setPasswordError(err.response.data.message);
     }
+    
   };
 
   const handleChangeUsername = async () => {
+    setUsernameError("");
     // Implementa la lógica para cambiar la contraseña utilizando la API de NextAuth
-    const response = await axios.post('/api/auth/usernameChange', {
-      username: newUsername,
-      curEmail: user.email
-    });
-    if (response.status == 200) {
-      console.log('Nombre de usuario actualizado con éxito');
-      update({ user: {...session?.user, username: newUsername} });
-    } else {
-      console.error('Error al actualizar el nombre de usuario');
+    try {
+      const response = await axios.post('/api/auth/usernameChange', {
+        username: newUsername,
+        curEmail: user.email
+      });
+      if (response.status == 200) {
+        console.log('Nombre de usuario actualizado con éxito');
+        update({ user: {...session?.user, username: newUsername} });
+      } else {
+        console.error('Error al actualizar el nombre de usuario');
+      }
+    } catch(err: any) {
+      setUsernameError(err.response.data.message)
     }
+    
   };
 
   const handleChangeEmail = async () => {
+    setEmailError("");
     // Implementa la lógica para cambiar la contraseña utilizando la API de NextAuth
-    const response = await axios.post('/api/auth/emailChange', {
-      email: newEmail,
-      curEmail: user.email
-    });
-    if (response.status == 200) {
-      console.log('Email actualizado con éxito');
-      //actualizar sesion.
-      update({ user: {...session?.user, email: newEmail} });
-    } else {
-      console.error('Error al actualizar el email');
+    try{
+      const response = await axios.post('/api/auth/emailChange', {
+        email: newEmail,
+        curEmail: user.email
+      });
+      if (response.status == 200) {
+        console.log('Email actualizado con éxito');
+        //actualizar sesion.
+        update({ user: {...session?.user, email: newEmail} });
+      } else {
+        console.error('Error al actualizar el email');
+      }
+    } catch(err: any) {
+      setEmailError(err.response.data.message);
     }
+    
   };
 
   const irADashboard = () => {
@@ -101,6 +123,7 @@ function ProfilePage() {
                   defaultValue={user.email}
                   onChange={(e) => setNewEmail(e.target.value)}
                   style={{ color: 'white' }}
+                  errorMessage={emailError}
                 />
                 <Button color='primary' className='mt-1' onClick={handleChangeEmail}>Actualizar e-mail</Button>
 
@@ -114,6 +137,7 @@ function ProfilePage() {
                   defaultValue={user.username}
                   onChange={(e) => setNewUsername(e.target.value)}
                   style={{ color: 'white' }}
+                  errorMessage={usernameError}
                 />
                 <Button color='primary' className='mt-1' onClick={handleChangeUsername}>Actualizar nombre de usuario</Button>
 
@@ -126,19 +150,14 @@ function ProfilePage() {
                   className="w-full mt-4"
                   onChange={(e) => setNewPassword(e.target.value)}
                   style={{ color: 'white' }}
+                  errorMessage={passwordError}
                 />
                 <Button color='primary' className='mt-1' onClick={handleChangePassword}>Actualizar contraseña</Button>
 
               </CardBody>
               <Divider />
               <CardFooter>
-                <Link
-                  isExternal
-                  showAnchorIcon
-                  href="https://github.com/nextui-org/nextui"
-                >
-                  Jecuta, jecuta.
-                </Link>
+                
               </CardFooter>
             </Card>
           </div>
