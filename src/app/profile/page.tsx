@@ -3,7 +3,7 @@ import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { Button, Input, Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
+import { Button, Input, Card, CardHeader, CardBody, CardFooter, Divider, Link, Image, Avatar } from "@nextui-org/react";
 
 function ProfilePage() {
   //const _status = await getServerSession(authOptions)
@@ -79,12 +79,9 @@ function ProfilePage() {
           <div className='justify-center h-[calc(100vh-4rem)] flex items-center'>
             <Card className="w-[30rem]">
               <CardHeader className="flex gap-3">
-                <Image
-                  alt="Imagen de usuario"
-                  height={40}
-                  radius="sm"
-                  src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-                  width={40}
+                <Avatar
+                  name={user.username}
+                  radius='sm'
                 />
                 <div className="flex flex-col">
                   <p className="text-md">{user.username}</p>

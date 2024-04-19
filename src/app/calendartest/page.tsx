@@ -9,7 +9,7 @@ interface CalendarTestProps {
   openEventInfoModal: React.Dispatch<React.SetStateAction<{ start: Date; end: Date; title: string } | null>>;
 }
 
-function CalendarTest({ events, openEventInfoModal: openEventInfoModal }: CalendarTestProps) {
+function CalendarTest({ events, openEventInfoModal, components }: any) {
   dayjs.locale("es");
   const localizer = dayjsLocalizer(dayjs);
   const messages = {
@@ -45,6 +45,7 @@ function CalendarTest({ events, openEventInfoModal: openEventInfoModal }: Calend
           onSelectEvent={handleEventClick}
           messages={messages}
           culture="es"
+          components={components}
         />
     </div>
   )

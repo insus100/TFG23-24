@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { useSession } from 'next-auth/react'
 import CalendarTest from "../calendartest/page";
-import { Button, Modal, useDisclosure } from '@nextui-org/react';
+import { Modal, useDisclosure } from '@nextui-org/react';
+import { FaRegStar } from "react-icons/fa";
 import EventModal from './eventModal'
 import ShowInfoModal from './showInfoModal'
 import ShowUserModal from './showUserModal'
@@ -19,6 +20,7 @@ import MyNavbar from '../components/navbar';
 function DashboarPage() {
   //const _status = await getServerSession(authOptions)
   const { data: session, status } = useSession()
+  const user = session?.user as any;
   const [events, setEvents] = useState([]);
   const [users, setUsers] = useState([]);
   const [eventCreated, setEventCreated] = useState(false);
@@ -77,32 +79,45 @@ function DashboarPage() {
     setSelectedEvent(event);
     onInfoModalOpen();
   }
-
+  const components = {
+    event: (props: any) => {
+      //console.log(props);
+      const { attendingUsers, favorites } = props.event;
+      const estaApuntado = attendingUsers.find((u: any) => u._id == user._id) ? true : false;
+      const esFavorito = favorites.find((u: any) => u._id == user._id) ? true : false;
+      if(estaApuntado) {
+        return <div style={{ background: "green" }}>
+          {esFavorito && <FaRegStar className="inline" color="yellow" />}
+          {props.title}
+        </div>
+      }
+      return <div>
+        {esFavorito && <FaRegStar className="inline" color="yellow" />}
+        {props.title}
+      </div>
+    }
+  }
   return (
     <div>
-      <MyNavbar users={users} events={events} setSelectedEvent={setSelectedEvent} onInfoModalOpen={onInfoModalOpen} setSelectedUser={setSelectedUser} onUserModalOpen={onUserModalOpen}/>
-      <Button onPress={onEventModalOpen} className="bg-green-500 text-white px-4 py-2 block mt-4">
-        Agregar Evento al Calendario
-      </Button>
-      <Button onPress={onListCreatedEventsModalOpen} className="bg-blue-500 text-white px-4 py-2 block mt-4">
-        Ver Eventos Creados
-      </Button>
-      <Button onPress={onListAttendingEventsModalOpen} className="bg-blue-500 text-white px-4 py-2 block mt-4">
-        Ver Eventos a los que me he apuntado
-      </Button>
-      <Button onPress={onListFavoriteEventsModalOpen} className="bg-blue-500 text-white px-4 py-2 block mt-4">
-        Ver Eventos Favoritos
-      </Button>
-      <Button onPress={onListFollowersModalOpen} className="bg-blue-500 text-white px-4 py-2 block mt-4">
-        Ver Seguidores
-      </Button>
-      <Button onPress={onListRecommendationsModalOpen} className="bg-blue-500 text-white px-4 py-2 block mt-4">
-        Ver Recomendaciones
-      </Button>
+      <MyNavbar
+        users={users}
+        events={events}
+        setSelectedEvent={setSelectedEvent}
+        onInfoModalOpen={onInfoModalOpen}
+        setSelectedUser={setSelectedUser}
+        onUserModalOpen={onUserModalOpen}
+        onListCreatedEventsModalOpen={onListCreatedEventsModalOpen}
+        onListAttendingEventsModalOpen={onListAttendingEventsModalOpen}
+        onListFavoriteEventsModalOpen={onListFavoriteEventsModalOpen}
+        onListFollowersModalOpen={onListFollowersModalOpen}
+        onListRecommendationsModalOpen={onListRecommendationsModalOpen}
+        onEventModalOpen={onEventModalOpen}
+      />
       <div className='justify-center h-[calc(100vh-4rem)] flex items-center'>
         <CalendarTest
           events={events}
           openEventInfoModal={openEventInfoModal}
+          components={components}
         />
       </div>
       <Modal

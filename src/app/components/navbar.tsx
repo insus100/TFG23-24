@@ -1,11 +1,11 @@
 "use client"
 
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Autocomplete, AutocompleteItem } from '@nextui-org/react';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Autocomplete, AutocompleteItem, Button } from '@nextui-org/react';
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalOpen, setSelectedUser, onUserModalOpen }: any) {
+export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalOpen, setSelectedUser, onUserModalOpen, onListCreatedEventsModalOpen, onListAttendingEventsModalOpen, onListFavoriteEventsModalOpen, onListFollowersModalOpen, onListRecommendationsModalOpen, onEventModalOpen }: any) {
     const { data: session, status } = useSession()
     const user = session?.user as any;
     const router = useRouter();
@@ -53,25 +53,20 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                         <p className="hidden sm:block font-bold text-inherit" style={{ color: 'white' }}>SciEvent</p>
                     </NavbarBrand>
                     <NavbarContent className="hidden sm:flex gap-3">
-                        <NavbarItem>
-                            <Link color="foreground" href="#">
-                                Features
-                            </Link>
-                        </NavbarItem>
                         <NavbarItem isActive>
-                            <Link href="#" aria-current="page" color="secondary">
-                                Customers
+                            <Link color="secondary" aria-current="page" href="#">
+                                Calendario
                             </Link>
                         </NavbarItem>
                         <NavbarItem>
-                            <Link color="foreground" href="#">
-                                Integrations
+                            <Link href="/users" color="foreground">
+                                Usuarios
                             </Link>
                         </NavbarItem>
                     </NavbarContent>
                 </NavbarContent>
 
-                <NavbarContent as="div" className="items-center" justify="end" >
+                <NavbarContent as="div" className="items-center" justify="end">
                     <Autocomplete
                         label="Buscar evento..."
                         classNames={{
@@ -103,9 +98,8 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                                 as="button"
                                 className="transition-transform"
                                 color="secondary"
-                                name="Jason Hughes"
                                 size="sm"
-                                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                                name={user ? (user.username):(null)}
                             />
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Profile Actions" variant="flat" style={{ color: 'white' }}>
@@ -114,13 +108,14 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                                 <p className="font-semibold">{user ? (user.email):(null)}</p>
                             </DropdownItem>
                             <DropdownItem key="settings" onPress={() => { irAPerfil() }}>Ir al perfil</DropdownItem>
-                            <DropdownItem key="team_settings">Team Settings</DropdownItem>
-                            <DropdownItem key="analytics">Analytics</DropdownItem>
-                            <DropdownItem key="system">System</DropdownItem>
-                            <DropdownItem key="configurations">Configurations</DropdownItem>
-                            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+                            <DropdownItem key="add_event" onPress={() => { onEventModalOpen() }} color='success' className='bg-green-500'>Agregar evento</DropdownItem>
+                            <DropdownItem key="created_events" onPress={() => { onListCreatedEventsModalOpen() }}>Ver eventos creados</DropdownItem>
+                            <DropdownItem key="attending_events" onPress={() => { onListAttendingEventsModalOpen() }}>Ver eventos a los que me he apuntado</DropdownItem>
+                            <DropdownItem key="favourite_events" onPress={() => { onListFavoriteEventsModalOpen() }}>Ver eventos favoritos</DropdownItem>
+                            <DropdownItem key="followers" onPress={() => { onListFollowersModalOpen() }}>Ver seguidores</DropdownItem>
+                            <DropdownItem key="recomendations" onPress={() => { onListRecommendationsModalOpen() }}>Ver recomendaciones</DropdownItem>
                             <DropdownItem key="logout" color="danger" onClick={() => { signOut() }}>
-                                Log Out
+                                Cerrar sesión
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>

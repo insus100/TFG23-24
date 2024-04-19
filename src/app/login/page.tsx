@@ -3,14 +3,14 @@ import { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Link } from "@nextui-org/react";
 
 function LoginPage() {
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
   const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {//esto es como hacer function handleSubmit(e: ...) {...}
     e.preventDefault();
-
+    setError("");
     const formData = new FormData(e.currentTarget);//sacar datos de formulario
     try {
       const res = await signIn("credentials", {
@@ -37,7 +37,6 @@ function LoginPage() {
   return (
     <div className="justify-center h-[calc(100vh-4rem)] flex items-center">
       <form onSubmit={handleSubmit} className="bg-neutral-950 px-8 py-10 w-3/12">
-        {error && <div className="bg-red-500 text-white p-2 mb-2">{error}</div>}
         <h1 className="text-4xl font-bold mb-7" style={{ color: 'white' }}>Iniciar sesión</h1>
 
 
@@ -49,6 +48,7 @@ function LoginPage() {
           placeholder="Introduce tu e-mail"
           name="email"
           className="w-full"
+          errorMessage={error}
           style={{ color: 'white' }}
         />
 
@@ -64,6 +64,7 @@ function LoginPage() {
         <Button color="primary" type="submit" className="w-full block mt-4">
           Iniciar sesión
         </Button>
+        <Link href="/register" underline="hover" className="mt-2 block">¿No tienes cuenta? Regístrate</Link>
       </form>
     </div>
   )
