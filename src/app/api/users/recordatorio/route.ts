@@ -23,7 +23,7 @@ export async function POST(request: Request) {
         } else {     
             const user = await User.findById(_id);
             if(!user.eventReminders) user.eventReminders = [];
-            if(!user.eventReminders.find((r: any) => r.reminder.toISOString() == date)) {
+            if(!user.eventReminders.find((r: any) => r.event == eventId && r.reminder.toISOString() == date)) {
                 user.eventReminders.push({
                     event: eventId,
                     reminder: date

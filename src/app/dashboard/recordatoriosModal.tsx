@@ -42,7 +42,7 @@ export default function RecordatoriosModal({ selectedEvent }: any) {
     const isDateUnavailable = (date: DateValue) => {
       //verificar con los recordatorios que ya ha puesto el usuario
       //console.log("isDateUnavailable", date)
-      if(recordatorios && recordatorios.find((r: any) => r.reminder == date.toDate('UTC').toISOString())) return true;
+      if(recordatorios && recordatorios.find((r: any) => r.event == selectedEvent._id && r.reminder == date.toDate('UTC').toISOString())) return true;
       return false;
     }
 
@@ -95,8 +95,8 @@ export default function RecordatoriosModal({ selectedEvent }: any) {
                               onAction={eliminarRecordatorio}
                             >
                               {
-                                recordatorios.map((r: any) => 
-                                  (<ListboxItem key={r.reminder} aria-label="item">{new Date(r.reminder).toLocaleDateString('es-CL')} <FaTrashAlt aria-label="icon" className="inline content-end" /></ListboxItem>)
+                                recordatorios.map((r: any) =>
+                                  r.event == selectedEvent._id && (<ListboxItem key={r.reminder} aria-label="item">{new Date(r.reminder).toLocaleDateString('es-CL')} <FaTrashAlt aria-label="icon" className="inline content-end" /></ListboxItem>)
                                 )
                               }
                             </Listbox>

@@ -94,6 +94,7 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                     <Dropdown placement="bottom-end">
                         <DropdownTrigger>
                             <Avatar
+                                aria-label='avatar'
                                 isBordered
                                 as="button"
                                 className="transition-transform"
@@ -103,7 +104,7 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                             />
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Profile Actions" variant="flat" style={{ color: 'white' }}>
-                            <DropdownItem key="profile" className="h-14 gap-2">
+                            <DropdownItem aria-label="Profile data" key="profile" className="h-14 gap-2">
                                 <p className="font-semibold">Conectado como:</p>
                                 <p className="font-semibold">{user ? (user.email):(null)}</p>
                             </DropdownItem>

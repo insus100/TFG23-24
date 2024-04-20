@@ -14,6 +14,7 @@ import ListFollowersModal from './listFollowersModal';
 import ListRecommendationsModal from './listRecommendationsModal';
 import axios from 'axios';
 import MyNavbar from '../components/navbar';
+import addNotification from "react-push-notification-18";
 
 
 
@@ -23,6 +24,7 @@ function DashboarPage() {
   const user = session?.user as any;
   const [events, setEvents] = useState([]);
   const [users, setUsers] = useState([]);
+  const [userNotified, setUserNotified] = useState(false);
   const [eventCreated, setEventCreated] = useState(false);
   const { isOpen: isEventModalOpen, onOpen: onEventModalOpen, onOpenChange: onEventModalOpenChange } = useDisclosure();
   const { isOpen: isInfoModalOpen, onOpen: onInfoModalOpen, onOpenChange: onInfoModalOpenChange } = useDisclosure();
@@ -40,7 +42,7 @@ function DashboarPage() {
     //return redirect('/login');
   }
 
-
+  
   useEffect(() => {
     (async () => {
       try {
@@ -49,11 +51,33 @@ function DashboarPage() {
         if (eventCreated) {
           setEventCreated(false);
         }
+        if(user) {
+          //console.log(user);
+          if(!userNotified) {
+            setUserNotified(true);
+            if(user.eventReminders && user.eventReminders.length > 0) {
+              const date = ((new Date()).toISOString()).split("T")[0];
+              user.eventReminders.forEach((r: any) => {
+                if(r.reminder.split("T")[0] == date) {
+                  addNotification({
+                    title: 'Recordatorio',
+                    subtitle: 'Recordatorio de evento',
+                    message: `Título: ${r.event.title} | Fecha inicio: ${r.event.start.replace("T", " ").replace(".000Z", "")} | Fecha fin: ${r.event.end.replace("T", " ").replace(".000Z", "")}`,
+                    theme: 'darkblue',
+                    duration: 10000,
+                    closeButton: 'X',
+                    native: false, // when using native, your OS will handle theming.
+                });
+                }
+              })
+            }
+          }
+        }
       } catch (error) {
         console.error("Error al obtener eventos:", error);
       }
     })();
-  }, [eventCreated]);
+  }, [eventCreated, user]);
 
   const getAllEvents = async () => {
     const response = await axios.get('/api/events/createEvent');
