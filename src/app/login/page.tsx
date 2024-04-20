@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button, Input, Link } from "@nextui-org/react";
-
+import addNotification from "react-push-notification-18";
 function LoginPage() {
   const [error, setError] = useState("");
   const router = useRouter();
@@ -23,7 +23,17 @@ function LoginPage() {
 
       //if (res?.error) return setError(res.error as string);
 
-      if (res?.ok) return router.push("/dashboard");
+      if (res?.ok){
+        addNotification({
+            title: 'Información',
+            subtitle: undefined,
+            message: 'Sesión iniciada correctamente',
+            theme: 'darkblue',
+            closeButton: 'X',
+            native: false, // when using native, your OS will handle theming.
+        });
+        return router.push("/dashboard");
+      } 
       else return setError(res?.error as any)
     } catch (error) {
       console.log(error);
