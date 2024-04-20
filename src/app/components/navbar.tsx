@@ -109,11 +109,11 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                             </DropdownItem>
                             <DropdownItem key="settings" onPress={() => { irAPerfil() }}>Ir al perfil</DropdownItem>
                             <DropdownItem key="add_event" onPress={() => { onEventModalOpen() }} color='success' className='bg-green-500'>Agregar evento</DropdownItem>
-                            <DropdownItem key="created_events" onPress={() => { onListCreatedEventsModalOpen() }}>Ver eventos creados</DropdownItem>
-                            <DropdownItem key="attending_events" onPress={() => { onListAttendingEventsModalOpen() }}>Ver eventos a los que me he apuntado</DropdownItem>
-                            <DropdownItem key="favourite_events" onPress={() => { onListFavoriteEventsModalOpen() }}>Ver eventos favoritos</DropdownItem>
-                            <DropdownItem key="followers" onPress={() => { onListFollowersModalOpen() }}>Ver seguidores</DropdownItem>
-                            <DropdownItem key="recomendations" onPress={() => { onListRecommendationsModalOpen() }}>Ver recomendaciones</DropdownItem>
+                            <DropdownItem key="created_events" onPress={() => { onListCreatedEventsModalOpen() }}>Eventos creados</DropdownItem>
+                            <DropdownItem key="attending_events" onPress={() => { onListAttendingEventsModalOpen() }}>Eventos a los que me he apuntado</DropdownItem>
+                            <DropdownItem key="favourite_events" onPress={() => { onListFavoriteEventsModalOpen() }}>Eventos favoritos</DropdownItem>
+                            <DropdownItem key="followers" onPress={() => { onListFollowersModalOpen() }}>Seguidores</DropdownItem>
+                            <DropdownItem key="recomendations" onPress={() => { onListRecommendationsModalOpen() }}>Recomendaciones</DropdownItem>
                             <DropdownItem key="logout" color="danger" onClick={() => { signOut() }}>
                                 Cerrar sesión
                             </DropdownItem>

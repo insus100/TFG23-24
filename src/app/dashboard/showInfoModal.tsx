@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react'
 import ModifyModal from './modifyModal'
 import Comment from "../components/comment";
 import { Rating } from '@smastrom/react-rating'
+import RecordatoriosModal from "./recordatoriosModal";
 
 interface showInfoModalProps {
   selectedEvent: any;
@@ -16,6 +17,7 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
   const { data: session, status } = useSession()
   const user = session?.user as any;
   const { isOpen: isModifyModalOpen, onOpen: onModifyModalOpen, onOpenChange: onModifyModalOpenChange } = useDisclosure();
+  const { isOpen: isRecordatoriosModalOpen, onOpen: onRecordatoriosModalOpen, onOpenChange: onRecordatoriosModalOpenChange } = useDisclosure();
   const [estaApuntado, setEstaApuntado] = useState(selectedEvent.attendingUsers.find((u: any) => u._id == user._id) ? true : false);
   const [recomendado, setRecomendado] = useState(selectedEvent.recommendedBy.find((u: any) => u._id == user._id) ? true : false);
   const [loadingButton, setLoadingButton] = useState(false);
@@ -154,8 +156,8 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
               {selectedEvent && (
                 <>
                   <p>Título: {selectedEvent.title}</p>
-                  <p>Inicio: {selectedEvent.start.toLocaleDateString() + " " + selectedEvent.start.toLocaleTimeString()}</p>
-                  <p>Fin: {selectedEvent.end.toLocaleDateString() + " " + selectedEvent.end.toLocaleTimeString()}</p>
+                  <p>Inicio: {selectedEvent.start.toLocaleDateString('es-CL') + " a las " + selectedEvent.start.toLocaleTimeString('es-CL')}</p>
+                  <p>Fin: {selectedEvent.end.toLocaleDateString('es-CL') + " a las " + selectedEvent.end.toLocaleTimeString('es-CL')}</p>
                   <p>Creador: {selectedEvent.creator.username}</p>
                   <p>Valoración: </p> <Rating style={{ maxWidth: 150 }} value={eventRating} onChange={handleChangeRating} />
                   <h1 className="text-xl font-bold cursor-pointer hover:text-red-500" onClick={showHideComments}>{commentsHidden ? "Mostrar comentarios" : "Ocultar comentarios"}</h1>
@@ -220,6 +222,13 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
                   </>
                 }
               </> : null }
+              {selectedEvent && user ? <>
+                { estaApuntado && 
+                  <Button color="primary" variant="flat" onPress={onRecordatoriosModalOpen} >
+                      Recordatorios
+                  </Button>
+                }
+              </> : null }
               {/* Puedes agregar más acciones o botones según tus necesidades */}
               </ButtonGroup>
             </ModalFooter>
@@ -230,6 +239,15 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
             >
             {selectedEvent && (
               <ModifyModal selectedEvent={selectedEvent}  />
+            )}
+            </Modal>
+            <Modal
+            isOpen={isRecordatoriosModalOpen}
+            onOpenChange={onRecordatoriosModalOpenChange}
+            placement="top-center"
+            >
+            {selectedEvent && (
+              <RecordatoriosModal selectedEvent={selectedEvent}  />
             )}
             </Modal>
           </>

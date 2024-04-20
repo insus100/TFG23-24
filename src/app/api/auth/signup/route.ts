@@ -28,7 +28,8 @@ export async function POST(request: Request) {
             email,
             username,
             password: hashedpassword,
-            followers: []
+            followers: [],
+            eventReminders: []
         })
         const savedUser = await user.save();
         console.log(savedUser)

@@ -24,6 +24,15 @@ username: {
 followers: [{
     type: Schema.Types.ObjectId,
     ref: "User"
+}],
+eventReminders: [{
+    event: {
+        type: Schema.Types.ObjectId,
+        ref: "Event"
+    },
+    reminder: {
+        type: Schema.Types.Date
+    }
 }]
 });
 
