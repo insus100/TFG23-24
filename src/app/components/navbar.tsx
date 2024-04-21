@@ -5,7 +5,7 @@ import { signOut, useSession } from 'next-auth/react'
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalOpen, setSelectedUser, onUserModalOpen, onListCreatedEventsModalOpen, onListAttendingEventsModalOpen, onListFavoriteEventsModalOpen, onListFollowersModalOpen, onListRecommendationsModalOpen, onEventModalOpen }: any) {
+export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalOpen, setSelectedUser, onUserModalOpen, onListCreatedEventsModalOpen, onListAttendingEventsModalOpen, onListFavoriteEventsModalOpen, onListFollowersModalOpen, onListRecommendationsModalOpen, onEventModalOpen, page }: any) {
     const { data: session, status } = useSession()
     const user = session?.user as any;
     const router = useRouter();
@@ -31,19 +31,23 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
     };
 
 
-    const filteredEvents = events.filter((event: EventData) =>
-        event.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    let filteredEvents = [];
+    if(page=="dashboard"){
+        filteredEvents = events.filter((event: EventData) =>
+            event.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }
 
-    const handleEventSelection = (selectedEvent: EventData) => {
-        setSelectedEvent(selectedEvent);
+    
+    const onEventSelectionChange = (key: any) => {
+        setSelectedEvent(filteredEvents.find((e: any) => e._id == key));
         onInfoModalOpen();
-    };
+    }
 
-    const handleUserSelection = (selectedUser: UserData) => {
-        setSelectedUser(selectedUser);
+    const onUserSelectionChange = (key: any) => {
+        setSelectedUser(users.find((u: any) => u._id == key));
         onUserModalOpen();
-    };
+    }
 
     return (
         <>
@@ -54,27 +58,27 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                     </NavbarBrand>
                     <NavbarContent className="hidden sm:flex gap-3">
                         <NavbarItem isActive>
-                            <Link color="secondary" aria-current="page" href="#">
+                            <Link color={page=="dashboard" ? "secondary":"foreground"} aria-current="page" href="/dashboard">
                                 Calendario
                             </Link>
                         </NavbarItem>
                         <NavbarItem>
-                            <Link href="/users" color="foreground">
-                                Usuarios
+                            <Link href="/profile" color={page=="profile" ? "secondary":"foreground"}>
+                                Perfil
                             </Link>
                         </NavbarItem>
                     </NavbarContent>
                 </NavbarContent>
-
-                <NavbarContent as="div" className="items-center" justify="end">
+                {page=="dashboard" && (<NavbarContent as="div" className="items-center" justify="end">
                     <Autocomplete
                         label="Buscar evento..."
                         classNames={{
                             base: "max-w-full sm:max-w-[10rem] h-10",
                         }}
+                        onSelectionChange={onEventSelectionChange}
                     >
                         {filteredEvents.map((event: EventData) => (
-                            <AutocompleteItem key={event._id} onClick={() => handleEventSelection(event)} value={event.title} style={{ color: 'white' }}>
+                            <AutocompleteItem key={event._id} /*onClick={() => handleEventSelection(event)}*/ value={event.title} style={{ color: 'white' }}>
                                 {event.title}
                             </AutocompleteItem>
                         ))}
@@ -84,9 +88,10 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                         classNames={{
                             base: "max-w-full sm:max-w-[10rem] h-10",
                         }}
+                        onSelectionChange={onUserSelectionChange}
                     >
                         {users.map((user: UserData) => (
-                            <AutocompleteItem key={user._id} onClick={() => handleUserSelection(user)} value={user.username} style={{ color: 'white' }}>
+                            <AutocompleteItem key={user._id} /*onClick={() => handleUserSelection(user)}*/ value={user.username} style={{ color: 'white' }}>
                                 {user.username}
                             </AutocompleteItem>
                         ))}
@@ -120,7 +125,7 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-                </NavbarContent>
+                </NavbarContent>)}    
             </Navbar>
         </>
     );

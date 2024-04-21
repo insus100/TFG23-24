@@ -81,7 +81,6 @@ function DashboarPage() {
 
   const getAllEvents = async () => {
     const response = await axios.get('/api/events/createEvent');
-    console.log("events", response);
     const fetchedEvents = response.data;
     const formattedEvents = fetchedEvents.map(({start, end, ...rest}: any) => ({
       start: new Date(start),
@@ -93,7 +92,6 @@ function DashboarPage() {
 
   const getAllUsers = async () => {
     const response = await axios.get('/api/users');
-    console.log("users", response);
     const fetchedUsers = response.data;
     setUsers(fetchedUsers);
   };
@@ -136,6 +134,7 @@ function DashboarPage() {
         onListFollowersModalOpen={onListFollowersModalOpen}
         onListRecommendationsModalOpen={onListRecommendationsModalOpen}
         onEventModalOpen={onEventModalOpen}
+        page={"dashboard"}
       />
       <div className='justify-center flex items-center'>
         <CalendarTest
@@ -150,7 +149,7 @@ function DashboarPage() {
         placement="top-center"
         onClose={async () => { setSelectedEvent(null); await getAllEvents(); }}
         scrollBehavior="inside"
-        size="2xl"
+        size="3xl"
       >
         {selectedEvent && (
           <ShowInfoModal selectedEvent={selectedEvent} setEventCreated={setEventCreated} />

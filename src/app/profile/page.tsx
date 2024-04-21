@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Button, Input, Card, CardHeader, CardBody, CardFooter, Divider, Link, Image, Avatar } from "@nextui-org/react";
+import MyNavbar from '../components/navbar';
 
 function ProfilePage() {
   //const _status = await getServerSession(authOptions)
@@ -90,12 +91,9 @@ function ProfilePage() {
 
   return (
     <div>
-      <Button color="danger" className="block mt-2 ml-2" onClick={() => { signOut() }}>
-        Cerrar sesión
-      </Button>
-      <Button color="primary" id="profileButton" onPress={() => { irADashboard() }}>
-        Ir al Dashboard
-      </Button>
+      <MyNavbar
+        page={"profile"}
+      />
       {session ? (
         <>
           <div className='justify-center h-[calc(100vh-4rem)] flex items-center'>
