@@ -4,6 +4,7 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, Dro
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from 'axios';
 
 export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalOpen, setSelectedUser, onUserModalOpen, onListCreatedEventsModalOpen, onListAttendingEventsModalOpen, onListFavoriteEventsModalOpen, onListFollowersModalOpen, onListRecommendationsModalOpen, onEventModalOpen, page }: any) {
     const { data: session, status } = useSession()
@@ -49,6 +50,16 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
         onUserModalOpen();
     }
 
+    const solicitarRecomendacion = async () => {
+        //console.log("solicitarRecomendacion");
+        const res = await axios.get('/api/events/solicitarRecomendacion');
+        const event = res.data;
+        //console.log(event);
+        event.start = new Date(event.start);
+        event.end = new Date(event.end);
+        setSelectedEvent(event);
+        onInfoModalOpen();
+    }
     return (
         <>
             <Navbar isBordered>
@@ -120,6 +131,7 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                             <DropdownItem key="favourite_events" onPress={() => { onListFavoriteEventsModalOpen() }}>Eventos favoritos</DropdownItem>
                             <DropdownItem key="followers" onPress={() => { onListFollowersModalOpen() }}>Seguidores</DropdownItem>
                             <DropdownItem key="recomendations" onPress={() => { onListRecommendationsModalOpen() }}>Recomendaciones</DropdownItem>
+                            <DropdownItem key="solicitar_recomendation" onPress={() => { solicitarRecomendacion() }}>Recomiéndame un evento</DropdownItem>
                             <DropdownItem key="logout" color="danger" onClick={() => { signOut() }}>
                                 Cerrar sesión
                             </DropdownItem>
