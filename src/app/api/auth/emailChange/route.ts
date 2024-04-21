@@ -1,18 +1,15 @@
 import { connectDB } from "@/libs/mongodb";
 import User from "@/models/user";
 import {  NextResponse } from "next/server";
-//import { getServerSession } from "next-auth";
 
 export async function POST(request: Request){
 
      const { email, curEmail } = await request.json();
-    // Validaciones adicionales, si es necesario
   
     try {
         await connectDB();
   
-      // Obtén el usuario desde la base de datos
-      //const session = await getServerSession();
+      // Obtenemos el usuario desde la base de datos
       const user = await User.findOne({email: curEmail});
   
       if (!user) {
@@ -27,7 +24,7 @@ export async function POST(request: Request){
       }
   
   
-      // Actualiza la contraseña del usuario en la base de datos
+      // Actualizamos la contraseña del usuario en la base de datos
       user.email = email;
       await user.save();
   

@@ -7,7 +7,6 @@ export async function POST(request: Request){
 
      const { password, curEmail } = await request.json();
   
-    // Validaciones adicionales, si es necesario
     if(password.length < 4) {
         return NextResponse.json(
             {
@@ -20,8 +19,7 @@ export async function POST(request: Request){
     try {
         await connectDB();
   
-      // Obtén el usuario desde la base de datos
-      //const session = await getServerSession();
+      // Obtenemos el usuario desde la base de datos
       const user = await User.findOne({email: curEmail});
   
       if (!user) {
@@ -35,10 +33,10 @@ export async function POST(request: Request){
   
       }
   
-      // Hashea la nueva contraseña antes de almacenarla
+      // Hasheamos la nueva contraseña antes de almacenarla
       const hashedPassword = await bcrypt.hash(password, 10);
   
-      // Actualiza la contraseña del usuario en la base de datos
+      // Actualizamos la contraseña del usuario en la base de datos
       user.password = hashedPassword;
       await user.save();
   

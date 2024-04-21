@@ -6,11 +6,8 @@ export async function POST(request: Request){
 
      const { end, curTitle } = await request.json();
   
-    // Validaciones adicionales, si es necesario
-  
     try {
         await connectDB();
-  
 
       const event = await Event.findOne({title: curTitle});
   

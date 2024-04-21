@@ -58,7 +58,6 @@ export default function ModifyModal({ selectedEvent }: modifyModalProps) {
 
   return (
     <>
-      {/*<Button onPress={onOpen} color="primary">Open Modal</Button>*/}
       <ModalContent>
         {(onClose) => (
           <>
@@ -113,8 +112,6 @@ export default function ModifyModal({ selectedEvent }: modifyModalProps) {
                     </Button>
                 </>)
               }
-
-              {/* Puedes agregar más acciones o botones según tus necesidades */}
             </ModalFooter>
           </>
         )}

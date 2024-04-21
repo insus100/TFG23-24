@@ -14,7 +14,7 @@ interface showInfoModalProps {
 }
 
 export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showInfoModalProps) {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const user = session?.user as any;
   const { isOpen: isModifyModalOpen, onOpen: onModifyModalOpen, onOpenChange: onModifyModalOpenChange } = useDisclosure();
   const { isOpen: isRecordatoriosModalOpen, onOpen: onRecordatoriosModalOpen, onOpenChange: onRecordatoriosModalOpenChange } = useDisclosure();
@@ -37,7 +37,7 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
       _id: selEvent._id
     });
     if(res.data.status == 'ok') {
-      //eliminar evento del big calendar y cerrar modal.
+      //eliminamos el evento del big calendar y cerramos modal.
       onClose();
     }
   }
@@ -142,11 +142,9 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
   useEffect(() => {
     setEventCreated(true);
   }, [])
-  //setEventCreated(true);//esto espamea el mensaje MongoDB connected en la consola. (El del GET de createEvent)
-  //+info https://www.reactjs.wiki/too-many-re-renders-react-limits-the-number-of-renders-to-prevent-an-infinite-loop
+
   return (
     <>
-      {/*<Button onPress={onOpen} color="primary">Open Modal</Button>*/}
       <ModalContent>
         {(onClose) => (
           <>
@@ -229,7 +227,6 @@ export default function ShowInfoModal({ selectedEvent, setEventCreated  }: showI
                   </Button>
                 }
               </> : null }
-              {/* Puedes agregar más acciones o botones según tus necesidades */}
               </ButtonGroup>
             </ModalFooter>
             <Modal

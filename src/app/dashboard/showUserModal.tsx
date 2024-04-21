@@ -9,7 +9,7 @@ interface showUserModalProps {
 }
 
 export default function ShowUserModal({ selectedUser  }: showUserModalProps) {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const user = session?.user as any;
   const [loadingButton, setLoadingButton] = useState(false);
   const [seguido, setSeguido] = useState(selectedUser.followers.find((u: any) => u._id == user._id) ? true : false);
@@ -43,7 +43,6 @@ export default function ShowUserModal({ selectedUser  }: showUserModalProps) {
 
   return (
     <>
-      {/*<Button onPress={onOpen} color="primary">Open Modal</Button>*/}
       <ModalContent>
         {(onClose) => (
           <>

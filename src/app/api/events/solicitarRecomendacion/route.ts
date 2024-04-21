@@ -28,9 +28,8 @@ export async function GET(request: Request) {
             }
           }
     ]);
-    //console.log("eventoId", eventoId)
+    
     const evento = await Event.findById(eventoId[0]._id).populate(['creator', 'attendingUsers', 'favorites', 'comments.user', 'recommendedBy', 'rejectedBy']);
-    //console.log("evento", evento);
 
     return NextResponse.json(evento);
 }

@@ -1,5 +1,5 @@
 "use client"
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -7,13 +7,11 @@ import { Button, Input, Card, CardHeader, CardBody, CardFooter, Divider, Link, I
 import MyNavbar from '../components/navbar';
 
 function ProfilePage() {
-  //const _status = await getServerSession(authOptions)
   const { data: session, status, update } = useSession()
   const router = useRouter();
   const user = session?.user as any;
   if (status === 'unauthenticated') {
     console.log("redirect to register");
-    //return redirect('/login');
   }
 
   const [newPassword, setNewPassword] = useState('');
@@ -26,7 +24,6 @@ function ProfilePage() {
 
   const handleChangePassword = async () => {
     setPasswordError("");
-    // Implementa la lógica para cambiar la contraseña utilizando la API de NextAuth
     try {
       const response = await axios.post('/api/auth/passwordChange', {
         password: newPassword,
@@ -46,7 +43,6 @@ function ProfilePage() {
 
   const handleChangeUsername = async () => {
     setUsernameError("");
-    // Implementa la lógica para cambiar la contraseña utilizando la API de NextAuth
     try {
       const response = await axios.post('/api/auth/usernameChange', {
         username: newUsername,
@@ -66,7 +62,6 @@ function ProfilePage() {
 
   const handleChangeEmail = async () => {
     setEmailError("");
-    // Implementa la lógica para cambiar la contraseña utilizando la API de NextAuth
     try{
       const response = await axios.post('/api/auth/emailChange', {
         email: newEmail,
@@ -74,7 +69,7 @@ function ProfilePage() {
       });
       if (response.status == 200) {
         console.log('Email actualizado con éxito');
-        //actualizar sesion.
+        //actualizamos la sesion.
         update({ user: {...session?.user, email: newEmail} });
       } else {
         console.error('Error al actualizar el email');
@@ -161,47 +156,6 @@ function ProfilePage() {
           </div>
         </>
       ) : <p>Debes iniciar sesión para ver tu perfil</p>}
-      {/*session ? (
-        <>
-          <div>
-            <label>Email Actual:</label>
-            <p>{user.email}</p>
-          </div>
-          <div>
-            <label>Cambiar Email:  </label>
-            <input
-              type="email"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-            />
-            <button onClick={handleChangeEmail}>Guardar Nuevo Email</button>
-          </div>
-          <div>
-            <label>Nombre de Usuario Actual:</label>
-            <p>{user.username}</p>
-          </div>
-          <div>
-            <label>Cambiar Nombre de Usuario:  </label>
-            <input
-              type="username"
-              value={newUsername}
-              onChange={(e) => setNewUsername(e.target.value)}
-            />
-            <button onClick={handleChangeUsername}>Guardar Nuevo Usuario</button>
-          </div>
-          <div>
-            <label>Cambiar Contraseña:  </label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-            <button onClick={handleChangePassword}>Guardar Nueva Contraseña</button>
-          </div>
-        </>
-      ) : (
-        <p>Debes iniciar sesión para ver tu perfil.</p>
-      )*/}
     </div>
   )
 }

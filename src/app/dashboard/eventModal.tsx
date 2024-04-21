@@ -12,7 +12,7 @@ export default function EventModal({ setEventCreated }: { setEventCreated: Funct
     e.preventDefault();
 
 
-    const formData = new FormData(e.currentTarget);//sacar datos de formulario
+    const formData = new FormData(e.currentTarget);//sacamos los datos de formulario
     try {
       const res = await axios.post("/api/events/createEvent", {
         title: formData.get("title"),
@@ -22,20 +22,18 @@ export default function EventModal({ setEventCreated }: { setEventCreated: Funct
       });
       console.log(res);
       if(res.data.status == 'ok') {
-        //cerrar el modal y añadirlo al calendario...
+        //cerramos el modal y lo añadimos al calendario...
         closeModal();
         setEventCreated(true);
       }
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError) {
-        //setError(error.response?.data.message)
       }
     }
   }
   return (
     <>
-      {/*<Button onPress={onOpen} color="primary">Open Modal</Button>*/}
       <ModalContent>
         {(onClose) => (
           <>
@@ -70,18 +68,6 @@ export default function EventModal({ setEventCreated }: { setEventCreated: Funct
                   variant="bordered"
                   style={{ color: 'white' }}
                 />
-                {/*<div className="flex py-2 px-1 justify-between">
-                  <Checkbox
-                    classNames={{
-                      label: "text-small",
-                    }}
-                  >
-                    Remember me
-                  </Checkbox>
-                  <Link color="primary" href="#" size="sm">
-                    Forgot password?
-                  </Link>
-                  </div>*/}
 
               </ModalBody>
               <ModalFooter>

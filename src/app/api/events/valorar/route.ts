@@ -6,8 +6,6 @@ export async function POST(request: Request){
 
      const { rating, userId, _id } = await request.json();
   
-    // Validaciones adicionales, si es necesario
-  
     await connectDB();
     try {
         const event = await Event.findById(_id);
@@ -21,7 +19,7 @@ export async function POST(request: Request){
                 event.ratings.push({ user: userId, rating });
             }
 
-            // Guardar los cambios en el evento
+            // Guardamos los cambios en el evento
             await event.save();
             return NextResponse.json({ status: 'ok', rating: rating });
         }

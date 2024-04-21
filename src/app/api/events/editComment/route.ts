@@ -9,7 +9,7 @@ export async function POST(request: Request){
   try {
     await connectDB();
   
-    // Buscar el evento que contiene el comentario
+    // Buscamos el evento que contiene el comentario
     const event = await Event.findOne({ "comments._id": commentId });
   
     if (!event) {
@@ -23,7 +23,7 @@ export async function POST(request: Request){
   
     console.log('Event:', event);
   
-    // Encontrar el comentario específico dentro del evento
+    // Encontramos el comentario específico dentro del evento
     const comment = event.comments.find((comment: any) => comment._id.toString() === commentId);
   
     if (!comment) {
@@ -37,10 +37,10 @@ export async function POST(request: Request){
   
     console.log('Comentario encontrado:', comment);
   
-    // Actualizar el texto del comentario
+    // Actualizamos el texto del comentario
     comment.comment = newText;
   
-    // Guardar el evento actualizado
+    // Guardamos el evento actualizado
     await event.save();
   
     return NextResponse.json({

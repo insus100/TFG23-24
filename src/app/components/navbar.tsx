@@ -1,13 +1,13 @@
 "use client"
 
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Autocomplete, AutocompleteItem, Button } from '@nextui-org/react';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Autocomplete, AutocompleteItem } from '@nextui-org/react';
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from 'axios';
 
 export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalOpen, setSelectedUser, onUserModalOpen, onListCreatedEventsModalOpen, onListAttendingEventsModalOpen, onListFavoriteEventsModalOpen, onListFollowersModalOpen, onListRecommendationsModalOpen, onEventModalOpen, page }: any) {
-    const { data: session, status } = useSession()
+    const { data: session } = useSession()
     const user = session?.user as any;
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState("");
@@ -51,10 +51,8 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
     }
 
     const solicitarRecomendacion = async () => {
-        //console.log("solicitarRecomendacion");
         const res = await axios.get('/api/events/solicitarRecomendacion');
         const event = res.data;
-        //console.log(event);
         event.start = new Date(event.start);
         event.end = new Date(event.end);
         setSelectedEvent(event);
@@ -89,7 +87,7 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                         onSelectionChange={onEventSelectionChange}
                     >
                         {filteredEvents.map((event: EventData) => (
-                            <AutocompleteItem key={event._id} /*onClick={() => handleEventSelection(event)}*/ value={event.title} style={{ color: 'white' }}>
+                            <AutocompleteItem key={event._id} value={event.title} style={{ color: 'white' }}>
                                 {event.title}
                             </AutocompleteItem>
                         ))}
@@ -102,7 +100,7 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
                         onSelectionChange={onUserSelectionChange}
                     >
                         {users.map((user: UserData) => (
-                            <AutocompleteItem key={user._id} /*onClick={() => handleUserSelection(user)}*/ value={user.username} style={{ color: 'white' }}>
+                            <AutocompleteItem key={user._id} value={user.username} style={{ color: 'white' }}>
                                 {user.username}
                             </AutocompleteItem>
                         ))}

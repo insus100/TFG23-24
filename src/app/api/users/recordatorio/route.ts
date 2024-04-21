@@ -44,9 +44,7 @@ export async function POST(request: Request) {
 
 
 export async function GET(request: NextRequest) {
-    //console.log("recordatorio GET request", request.nextUrl.searchParams)
     await connectDB();
     const recordatorios = await User.findById(request.nextUrl.searchParams.get('userId')).select('eventReminders')
-    //console.log("GET RECORDATORIOS ", recordatorios)
     return NextResponse.json(recordatorios);
 }

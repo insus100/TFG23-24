@@ -6,8 +6,6 @@ export async function POST(request: Request){
 
      const { start, curTitle } = await request.json();
   
-    // Validaciones adicionales, si es necesario
-  
     try {
         await connectDB();
   

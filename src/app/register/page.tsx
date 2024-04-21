@@ -11,7 +11,7 @@ function RegisterPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {//esto es como hacer function handleSubmit(e: ...) {...}
     e.preventDefault();
     setError("");
-    const formData = new FormData(e.currentTarget);//sacar datos de formulario
+    const formData = new FormData(e.currentTarget);//sacamos los datos del formulario
     try {
       const signupResponse = await axios.post("/api/auth/signup", {
         email: formData.get("email"),

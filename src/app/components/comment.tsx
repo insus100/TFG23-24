@@ -9,7 +9,7 @@ export default function Comment({comments, hide, eventId, userId} : any) {
   const [loadingCommentButton, setLoadingCommentButton] = useState(false);
   const [loadingEditButton, setLoadingEditButton] = useState(false);
   const [editingComment, setEditingComment] = useState<{ commentId: string, text: string } | null>(null);
-  //console.log(comments);
+
   const onAddComment = async () => {
     setError("");
     if(input.length == 0) {
@@ -40,7 +40,6 @@ export default function Comment({comments, hide, eventId, userId} : any) {
       newText: newText
     });
     if (response.status === 200) {
-      //console.log('Comentario editado con éxito');
       const editedCommentIndex = comments.findIndex((comment: any) => comment._id === commentId);
       if (editedCommentIndex !== -1) {
         comments[editedCommentIndex].comment = newText;

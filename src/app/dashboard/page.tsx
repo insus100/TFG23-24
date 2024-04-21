@@ -19,7 +19,6 @@ import addNotification from "react-push-notification-18";
 
 
 function DashboarPage() {
-  //const _status = await getServerSession(authOptions)
   const { data: session, status } = useSession()
   const user = session?.user as any;
   const [events, setEvents] = useState([]);
@@ -39,7 +38,6 @@ function DashboarPage() {
 
   if (status === 'unauthenticated') {
     console.log("redirect to register");
-    //return redirect('/login');
   }
 
   
@@ -52,7 +50,6 @@ function DashboarPage() {
           setEventCreated(false);
         }
         if(user) {
-          //console.log(user);
           if(!userNotified) {
             setUserNotified(true);
             if(user.eventReminders && user.eventReminders.length > 0) {
@@ -66,7 +63,7 @@ function DashboarPage() {
                     theme: 'darkblue',
                     duration: 10000,
                     closeButton: 'X',
-                    native: false, // when using native, your OS will handle theming.
+                    native: false, 
                 });
                 }
               })
@@ -97,13 +94,11 @@ function DashboarPage() {
   };
 
   const openEventInfoModal = (event: any) => {
-    //console.log("Selected event", event);
     setSelectedEvent(event);
     onInfoModalOpen();
   }
   const components = {
     event: (props: any) => {
-      //console.log(props);
       const { attendingUsers, favorites } = props.event;
       const estaApuntado = attendingUsers.find((u: any) => u._id == user._id) ? true : false;
       const esFavorito = favorites.find((u: any) => u._id == user._id) ? true : false;

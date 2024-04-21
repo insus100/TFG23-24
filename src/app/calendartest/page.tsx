@@ -4,11 +4,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from 'dayjs';
 import 'dayjs/locale/es'
 
-interface CalendarTestProps {
-  events: { start: Date; end: Date; title: string }[];
-  openEventInfoModal: React.Dispatch<React.SetStateAction<{ start: Date; end: Date; title: string } | null>>;
-}
-
 function CalendarTest({ events, openEventInfoModal, components }: any) {
   dayjs.locale("es");
   const localizer = dayjsLocalizer(dayjs);
@@ -27,7 +22,6 @@ function CalendarTest({ events, openEventInfoModal, components }: any) {
     noEventsInRange: "Sin eventos"
   };
   const handleEventClick = (event: { start: Date; end: Date; title: string }) => {
-    //console.log("handleEventClick", event);
     openEventInfoModal(event);
   };
 

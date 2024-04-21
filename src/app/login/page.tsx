@@ -11,7 +11,7 @@ function LoginPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {//esto es como hacer function handleSubmit(e: ...) {...}
     e.preventDefault();
     setError("");
-    const formData = new FormData(e.currentTarget);//sacar datos de formulario
+    const formData = new FormData(e.currentTarget);//sacamos los datos de formulario
     try {
       const res = await signIn("credentials", {
         email: formData.get("email"),
@@ -21,8 +21,6 @@ function LoginPage() {
       });
 
 
-      //if (res?.error) return setError(res.error as string);
-
       if (res?.ok){
         addNotification({
             title: 'Información',
@@ -30,7 +28,7 @@ function LoginPage() {
             message: 'Sesión iniciada correctamente',
             theme: 'darkblue',
             closeButton: 'X',
-            native: false, // when using native, your OS will handle theming.
+            native: false, 
         });
         return router.push("/dashboard");
       } 

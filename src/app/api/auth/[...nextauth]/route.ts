@@ -36,7 +36,6 @@ const handler = NextAuth({
             //siempre se llama al recargar pagina, primero esta
             if(trigger === 'update' && session?.user) {
                 token.user = session?.user as any;
-                //console.log("user updated session: ", session);
             }
             else if (user) token.user = user as any;
             return token;

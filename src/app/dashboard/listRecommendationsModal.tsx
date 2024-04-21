@@ -36,11 +36,11 @@ export default function ListRecommendationsEventsModal({ events, users, onClose,
     const { data: session } = useSession();
     const user = session?.user as any;
 
-  // Lista para almacenar los eventos recomendados para el usuario actual
+  // Lista para almacenar los eventos recomendados para el usuario de la sesión
   const [recommendations, setRecommendations] = useState<EventData[]>([]);
   
 
-    // Filter recommendations when events or users change
+    // Filtramos los eventos para que solo nos salgan los que nos recomiendan
     useEffect(() => {
       const filteredRecommendations: EventData[] = [];
       events.forEach(event => {
@@ -68,7 +68,7 @@ export default function ListRecommendationsEventsModal({ events, users, onClose,
       });
       if(res.data.status === 'ok') {
           setEventCreated(true);
-          // Remove the event from recommendations
+          // Eliminamos el evento de las recomendaciones
           setRecommendations(prevRecommendations => prevRecommendations.filter(event => event._id !== selEvent._id));
       }
   }
@@ -81,7 +81,7 @@ export default function ListRecommendationsEventsModal({ events, users, onClose,
     });
     if(res.data.status === 'ok') {
         setEventCreated(true);
-        // Remove the event from recommendations
+        // Eliminamos el evento de las recomendaciones
         setRecommendations(prevRecommendations => prevRecommendations.filter(event => event._id !== selEvent._id));
     }
 }

@@ -1,5 +1,5 @@
 "use client"
-import { ModalContent, ModalHeader, ModalBody, ModalFooter, Button, DatePicker, Calendar, Listbox, ListboxItem } from "@nextui-org/react";
+import { ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Calendar, Listbox, ListboxItem } from "@nextui-org/react";
 import axios from "axios";
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react';
@@ -7,10 +7,9 @@ import { DateValue, getLocalTimeZone, parseDate } from "@internationalized/date"
 import { FaTrashAlt } from "react-icons/fa";
 
 export default function RecordatoriosModal({ selectedEvent }: any) {
-    const { data: session, status } = useSession()
+    const { data: session } = useSession()
     const user = session?.user as any;
     const [puedeSeleccionar, setPuedeSeleccionar] = useState(false);
-    //console.log("RecordatoriosModal", selectedEvent.end.toISOString().split("T")[0])
     const [recordatorios, setRecordatorios] = useState<any>([]);
     const [focusedDate, setFocusedDate] = useState(null);
     const anadirFecha = async (date: DateValue) => {
@@ -40,8 +39,7 @@ export default function RecordatoriosModal({ selectedEvent }: any) {
     }
 
     const isDateUnavailable = (date: DateValue) => {
-      //verificar con los recordatorios que ya ha puesto el usuario
-      //console.log("isDateUnavailable", date)
+      //verificamos con los recordatorios que ya ha puesto el usuario
       if(recordatorios && recordatorios.find((r: any) => r.event == selectedEvent._id && r.reminder == date.toDate('UTC').toISOString())) return true;
       return false;
     }
@@ -54,7 +52,6 @@ export default function RecordatoriosModal({ selectedEvent }: any) {
       });
       setRecordatorios(res.data.eventReminders);
       console.log("getUserRecordatorios res.data ", res.data.eventReminders)
-      //console.log("getUserRecordatorios recordatorios ", recordatorios)
     }
     useEffect(() => {
       (async () => {
@@ -68,7 +65,6 @@ export default function RecordatoriosModal({ selectedEvent }: any) {
     }, []);
     return (
         <>
-          {/*<Button onPress={onOpen} color="primary">Open Modal</Button>*/}
           <ModalContent>
             {(onClose) => (
               <>
@@ -81,7 +77,7 @@ export default function RecordatoriosModal({ selectedEvent }: any) {
                       value={focusedDate}
                       isDisabled={!puedeSeleccionar}
                       maxValue={parseDate(selectedEvent.end.toISOString().split("T")[0])}
-                      isDateUnavailable={isDateUnavailable}//en la fun
+                      isDateUnavailable={isDateUnavailable}
                       onChange={anadirFecha}
                     />
                     <div aria-label="div1" className="flex flex-col gap-2">
@@ -90,8 +86,6 @@ export default function RecordatoriosModal({ selectedEvent }: any) {
                               aria-label="Single selection"
                               variant="flat"
                               color="danger"
-                              //disallowEmptySelection
-                              //selectedKeys={selectedKeys}
                               onAction={eliminarRecordatorio}
                             >
                               {
@@ -111,8 +105,6 @@ export default function RecordatoriosModal({ selectedEvent }: any) {
                         </Button>
                     </>)
                   }
-    
-                  {/* Puedes agregar más acciones o botones según tus necesidades */}
                 </ModalFooter>
               </>
             )}
