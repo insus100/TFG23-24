@@ -32,7 +32,7 @@ export default function MyNavbar({ users, events, setSelectedEvent, onInfoModalO
     };
 
 
-    let filteredEvents = [];
+    let filteredEvents = [] as any[];
     if(page=="dashboard"){
         filteredEvents = events.filter((event: EventData) =>
             event.title.toLowerCase().includes(searchTerm.toLowerCase())
