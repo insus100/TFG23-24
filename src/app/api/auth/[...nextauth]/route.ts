@@ -3,6 +3,7 @@ import User from "@/models/user";
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs";
+import "@/models/event";
 
 const handler = NextAuth({
     providers: [
@@ -17,7 +18,7 @@ const handler = NextAuth({
                 const userFound = await User.findOne({
                     email: credentials?.email,
                 }).select("+password").populate(['followers', 'eventReminders.event']);
-
+                console.log("NextAuth ", userFound)
                 if (!userFound) throw new Error("No se encontró el usuario");
 
                 const passwordMatch = await bcrypt.compare(
